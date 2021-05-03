@@ -5,6 +5,7 @@
 #include "Core/DeckController/StreamDeckDevice.h"
 #include "Core/DeckController/StreamDeckDiscovery.h"
 
+class ProDeckOS;
 class ProDeck: public QObject
 {
     Q_OBJECT
@@ -17,12 +18,12 @@ private slots:
    void discoveryUpdated(QList<StreamDeckDevice> );
 
 private:
-   void startDevice(StreamDeckDevice );
+   ProDeckOS *startDevice(StreamDeckDevice );
    void stopDevice(StreamDeckDevice );
 
 private:
    StreamDeckDiscovery *_pDiscovery;
-   QList<StreamDeckDevice> _runningDevices;
+   QMap<StreamDeckDevice, ProDeckOS*> *_runningDevices;
 };
 
 #endif // PRODECK_H

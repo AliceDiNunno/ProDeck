@@ -2,10 +2,13 @@
 #include "Core/Logging/Logging.h"
 
 #include <QDebug>
+#include "OS/ProDeckOS.h"
 
 ProDeck::ProDeck()
 {
     Logging::log("Starting Prodeck...");
+
+    _runningDevices = new QMap<StreamDeckDevice, ProDeckOS*>();
 
     _pDiscovery = new StreamDeckDiscovery(StreamDeckAvailableDevice::XL);
 
@@ -20,12 +23,12 @@ void ProDeck::discoveryUpdated(QList<StreamDeckDevice> deviceList) {
         auto device = deviceList.at(i);
         remainingDevices.removeOne(device);
 
-        if (!_runningDevices.contains(device)) {
-            this->startDevice(device);
-            _runningDevices.append(device);
+        if (!_runningDevices->keys().contains(device)) {
+            auto os = this->startDevice(device);
+            if (os != nullptr) {
+               _runningDevices->insert(device, os);
+            }
         }
-
-
     }
 
     for (int i = 0; i < remainingDevices.count(); i++) {
@@ -35,16 +38,20 @@ void ProDeck::discoveryUpdated(QList<StreamDeckDevice> deviceList) {
     }
 }
 
-void ProDeck::startDevice(StreamDeckDevice dev) {
+ProDeckOS *ProDeck::startDevice(StreamDeckDevice dev) {
     if (dev.Open()) {
-        qDebug() << "Opened";
+        Logging::log(QString("Opened Device: %1").arg(dev.serialNumber()));
+        auto os = new ProDeckOS(dev);
+        return os;
     } else {
+        //TODO: handle error
         qDebug() << "Unable to open";
     }
+    return nullptr;
 }
 
 void ProDeck::stopDevice(StreamDeckDevice dev) {
-    qDebug() << "closed";
+    Logging::log(QString("Closed Device: %1").arg(dev.serialNumber()));
     dev.Close();
 }
 
@@ -53,9 +60,8 @@ ProDeck::~ProDeck() {
     _pDiscovery->stop();  
     _pDiscovery->deleteLater();
 
-    for (int i = 0; i < _runningDevices.count(); i++) {
-        auto device = _runningDevices.at(i);
-
+    for (int i = 0; i < _runningDevices->keys().count(); i++) {
+        auto device = _runningDevices->keys().at(i);
         stopDevice(device);
     }
 }
