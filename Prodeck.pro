@@ -16,6 +16,7 @@ SOURCES += \
     Core/Hid/HidDevice.cpp \
     Core/Hid/HidDiscovery.cpp \
     Core/Logging/Logging.cpp \
+    OS/Configuration.cpp \
     OS/ProDeckOS.cpp \
     ProDeck.cpp \
     main.cpp
@@ -31,6 +32,7 @@ HEADERS += \
     Core/Hid/HidDeviceInformation.h \
     Core/Hid/HidDiscovery.h \
     Core/Logging/Logging.h \
+    OS/Configuration.h \
     OS/ProDeckOS.h \
     ProDeck.h
 
