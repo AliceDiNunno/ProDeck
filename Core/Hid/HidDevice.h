@@ -12,6 +12,8 @@ public:
     bool open();
     void close();
 
+    void writeFeature(const unsigned char *, int);
+
     bool isOpen();
 
 private:

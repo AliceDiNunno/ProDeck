@@ -20,6 +20,11 @@ bool HidDevice::open() {
     return isOpen();
 }
 
+void HidDevice::writeFeature(const unsigned char *feature, int length) {
+    if (_pDeviceDescriptor == nullptr) { return; }
+    hid_send_feature_report(_pDeviceDescriptor, feature, length);
+}
+
 void HidDevice::close() {
     if (_pDeviceDescriptor == nullptr) return;
 
