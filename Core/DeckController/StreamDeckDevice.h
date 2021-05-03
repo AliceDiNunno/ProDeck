@@ -10,6 +10,8 @@ public:
     StreamDeckDevice(StreamDeckDeviceInformation information, QString serial);
     bool Open();
     void Close();
+    void ResetStream();
+    void SetBrightness(short );
     void Clear();
 
     bool operator==(const StreamDeckDevice &) const;
