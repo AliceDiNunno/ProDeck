@@ -14,6 +14,7 @@ public:
 
     bool operator==(const StreamDeckDevice &) const;
     bool operator<(const StreamDeckDevice &) const;
+    QString serialNumber();
 
 private:
     HidDevice *_device;

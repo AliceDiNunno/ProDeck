@@ -21,6 +21,9 @@ void StreamDeckDevice::Close() {
 }
 
 void StreamDeckDevice::Clear() {
+QString StreamDeckDevice::serialNumber() {
+    return _serialNumber;
+}
 
 bool StreamDeckDevice::operator==(const StreamDeckDevice &other) const {
     return this->_serialNumber == other._serialNumber;
