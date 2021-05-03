@@ -22,8 +22,10 @@ void StreamDeckDevice::Close() {
 
 void StreamDeckDevice::Clear() {
 
+bool StreamDeckDevice::operator==(const StreamDeckDevice &other) const {
+    return this->_serialNumber == other._serialNumber;
 }
 
-bool StreamDeckDevice::operator==(const StreamDeckDevice &a) const {
-    return this->_serialNumber == a._serialNumber;
+bool StreamDeckDevice::operator<(const StreamDeckDevice &other) const {
+    return this->_serialNumber < other._serialNumber;
 }

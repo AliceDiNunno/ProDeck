@@ -12,7 +12,8 @@ public:
     void Close();
     void Clear();
 
-    bool operator==(const StreamDeckDevice &a) const;
+    bool operator==(const StreamDeckDevice &) const;
+    bool operator<(const StreamDeckDevice &) const;
 
 private:
     HidDevice *_device;
