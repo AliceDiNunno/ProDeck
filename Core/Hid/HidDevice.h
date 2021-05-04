@@ -13,6 +13,7 @@ public:
     void close();
 
     void writeFeature(const unsigned char *, int);
+    void write(QByteArray );
 
     bool isOpen();
 

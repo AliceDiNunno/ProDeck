@@ -3,6 +3,7 @@
 
 #include "Core/Device/StreamDeckDeviceInformation.h"
 #include "Core/Hid/HidDevice.h"
+#include <QtGui/QPixmap>
 
 class StreamDeckDevice
 {
@@ -12,6 +13,7 @@ public:
     void Close();
     void ResetStream();
     void SetBrightness(short );
+    void Draw(short key, QPixmap pix);
     void Clear();
 
     bool operator==(const StreamDeckDevice &) const;

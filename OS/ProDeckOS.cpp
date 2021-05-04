@@ -1,11 +1,18 @@
 #include "ProDeckOS.h"
 #include "Core/Logging/Logging.h"
+#include <unistd.h>
 
 ProDeckOS::ProDeckOS(StreamDeckDevice device): _device(device)
 {
     log("Starting ProDeckOS");
     ClearScreen();
     SetBrightness(25);
+
+    QPixmap pix("/Users/alice/Downloads/output-onlinepngtools.jpg");
+    for (int i = 0; i < 32; i++) {
+        _device.Draw(i, pix);
+    }
+
 }
 
 void ProDeckOS::ClearScreen() {

@@ -25,6 +25,11 @@ void HidDevice::writeFeature(const unsigned char *feature, int length) {
     hid_send_feature_report(_pDeviceDescriptor, feature, length);
 }
 
+void HidDevice::write(QByteArray array) {
+    if (_pDeviceDescriptor == nullptr) { return; }
+    hid_write(_pDeviceDescriptor, (const unsigned char *) array.data(), array.length());
+}
+
 void HidDevice::close() {
     if (_pDeviceDescriptor == nullptr) return;
 
