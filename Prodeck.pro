@@ -53,6 +53,7 @@ macx {
 }
 unix {
     SOURCES += ./libs/hidapi/linux/hid.c
+    LIBS += -ludev
 }
 
 # Default rules for deployment.
