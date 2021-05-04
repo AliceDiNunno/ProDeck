@@ -21,6 +21,7 @@ before_install:
     sudo apt-get update;
     sudo apt-get install libudev-dev;
     fi
+- pip install --user cpp-coveralls
 
 addons:
   sonarcloud:
@@ -29,7 +30,8 @@ addons:
       secure: "wqFV2zSaLYcHs6LA0Jq4OpS0ZuVSI5EHyWIz55h3y+R9ImgyboJdcScKwns7TVbVqaOyXBe2koLtVwFSlL3+Rq1DezXxicJRMR4PZTkzR+qdoTv+VymNy9Hd6PGAlaooDwNg3cbry+c1iqnIDFiFQcXUGO0z9hmJDm2nNXtCN9uRkzPRvenV++R48CiaS4rmHBM7G6ynZDauZbbRKyrBioud37mGn9jPY/8KxS+pDyvvQJInOJjgst/A0lRJJ4deDJegCty/FjJ5tU9tXIIYhjWMr1jRCbWRzvyHEvhMJnS1kDzLzXU9vkE9ukGtolRNh5K1XDe+byPcNvob8mbyCy93vzUCdYtQRhhYkx6l8TaUOeiJ8nigHSWNHSHgHquSynMsOn6qfkFScQJJEGTkUQ+kRdxKZwl35zHmk8PfBCnim4Z/iu7Ta3qjkbmrv6KvUMiF327/jLPDnId8aAPx0Wd1dof4aisxfliIc+TcccgtAlydqoz9VgdtSMoKjxm9cjd/KCumrvJii2ADQY6j5Wx/EyOaXyWPnynMm8AzHVMGkDIAw2trDSC1DsU5CASBmrGP7EAHDPf0hAY3aX+/mMPhYCz90SWStupzTEsEX96NvvzdedJhxe1UbqgDeti3qkfBDs+yqH2ebpn2WQ5S8mGpGan4h0rW7SitT3Cr1UA=" # encrypted value of your token
 
 
-script:
+after_success:
+  - coveralls --root . -E ".*external.*" -E ".*tests.*"
   # Wraps the compilation with the Build Wrapper to generate configuration (used
   # later by the SonarScanner) into the "bw-output" folder
   - build-wrapper-linux-x86-64 --out-dir bw-output make clean all
