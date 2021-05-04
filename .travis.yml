@@ -17,7 +17,8 @@ before_install:
 addons:
   sonarcloud:
     organization: alicedinunno
-    token: ${SONAR_TOKEN}
+    token:
+      secure: "d9KAoyfnF8bPBkkOSNQhjmRyTVtAXn94YWAt+UqOzoZ5okCScKXYrzeVkwQ69FfA0HZ+zvrofKlmOWBqVn5JNkbbl760B3B7s0VtjQsdwXB7Wc5Fk6MKSO3oeznAENQoH6rppnTiuopT5IYJZjTYhz1/mAjwcXTYTHJ8omlFhenUWFOGnuUCUAfKV2WeXOY1bnUs3TD3YjuxsBlloRXspM1l85NeLfWQKgFLdyNK4SjUyQSK38XAR/jes7xNpCbhxbQC9HJydRDCtsjLPzQ1wN9gBhq4IDmwAn8Ho7ofQnckS6bwILlsOljSwA+1zvAuCr13tP9DRXk3ID0EOtXjz5AIqdaJcouWqpyvDyq4nuVoVXjfK97UGiS6+9MZz26bs2rr5Z588Ft3PW5SMoVrENzggV5CzDPGYQI0ufFDtmR0RMA1EmjTYmQPN0zWvfWTsvpr9KlJP8m5V7xGfuDJ/nymeW6YI0ed3ocGwIz0tIGFD+IO+LTFR2P0/RpNuGXVPH6R21ujNTYtKGdkalnBeIng11M4YVYgFxb/3ZHzws4ZxXXjzjBaNPGm8UPD3PteRKpfJeQaq/1lyI6sD7gnfBpBisXZptpkyPtJnyCq++Ap9bOus4jfbxt/qsN9FOSOfhsnZXDNRVDGLX2Deq5fNC+1VKC1VQK4AOaRhJNLBPg="
 
 after_success:
 - coveralls --root . -E ".*external.*" -E ".*tests.*"
