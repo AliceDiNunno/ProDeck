@@ -8,10 +8,47 @@ ProDeckOS::ProDeckOS(StreamDeckDevice device): _device(device)
     ClearScreen();
     SetBrightness(25);
 
-    QPixmap pix("/Users/alice/Downloads/output-onlinepngtools.jpg");
-    for (int i = 0; i < 32; i++) {
-        _device.Draw(i, pix);
+    auto red = QPixmap(96, 96);
+    red.fill(Qt::red);
+
+    auto orange = QPixmap(96, 96);
+    orange.fill(QColor(243, 114, 32));
+
+    auto yellow = QPixmap(96, 96);
+    yellow.fill(Qt::yellow);
+
+    auto green = QPixmap(96, 96);
+    green.fill(Qt::green);
+
+    auto blue = QPixmap(96, 96);
+    blue.fill(Qt::blue);
+
+    auto purple = QPixmap(96, 96);
+    purple.fill(QColor("purple"));
+
+    int row = 0;
+    int colorIndex = 0;
+    QList<QPixmap> colors = {red, orange, yellow, green, blue, purple};
+    while (true) {
+        _device.Draw(row, colors[colorIndex]);
+        _device.Draw(row+8, colors[colorIndex]);
+        _device.Draw(row+16, colors[colorIndex]);
+        _device.Draw(row+24, colors[colorIndex]);
+        row++;
+
+        if (row > 7) {
+            row = 0;
+            colorIndex++;
+        }
+
+        if (colorIndex >= colors.count()) {
+            colorIndex = 0;
+        }
+
+
+        usleep(10000);
     }
+
 
 }
 

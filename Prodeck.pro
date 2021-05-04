@@ -20,6 +20,7 @@ SOURCES += \
     Core/Logging/Logging.cpp \
     OS/Configuration.cpp \
     OS/ProDeckOS.cpp \
+    OS/SplashScreen.cpp \
     ProDeck.cpp \
     main.cpp
 
@@ -36,6 +37,7 @@ HEADERS += \
     Core/Logging/Logging.h \
     OS/Configuration.h \
     OS/ProDeckOS.h \
+    OS/SplashScreen.h \
     ProDeck.h
 
 FORMS +=
@@ -51,7 +53,7 @@ win32 {
 macx {
     SOURCES += ./libs/hidapi/mac/hid.c
 }
-unix {
+unix:!macx {
     SOURCES += ./libs/hidapi/linux/hid.c
     LIBS += -ludev
 }
