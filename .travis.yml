@@ -17,10 +17,9 @@ before_install:
 addons:
   sonarcloud:
     organization: alicedinunno
-    token:
-      secure: "EVle7u2rMiVT63GtaVdZ2X23XA5mU4ne6JKaDPsMjO+kofO0nTJZ3yizoMO0MxdYtP4fHOozcMWthGvVFpdGlxnMfGL+RZ4BTfgrqSH4rIpPVRFdu15+Z25lWmrJB/oNwkZ52zmIVE5yCOUVqFq3TohJaoZdlCL6hGW5Dr7KC0oUgnQ2lvCd12Mg2oDhg8ZU8vzASayxEDpMtnyfR/RFWoR2cgBayyb9SH0xv9h5+y+PB3rhbWI5MEYu0UCrF95PNgrBbfTyGL5oXwPw30YoHBYkZ42DnAxUqVhAo2KO5M13JAjrJ+r4g1kwRWE9pEFfIPBuV0Azec9l4pSajOMyRwNU7Sfa1qsMA/feE8Aa2OaUhlYJKTxrSlDYqT4rlQsCDeeGrjw29e0sqa8jfCy0ZtpKSNTtHTJeJdQqcrs/zSEwQifkq+g0N+zIUMqstch4CCMoeMd7Yew/8uRy/tl/ubuxb9eI/aTzyAZIliAjt/c+orK4jB/fxkovXChFeYZwDsfHDfqG0adXjv0fMLw37jiQmVhrMIzK9dKb8Y+KG4W1soVVI8wTKhEvdqsp7UyRybCXAlsWuq0hHLTnusiD00lMEYMz3QE1auzYB3KXN1iJ3RK7wyM2mWhqTxZ+gjbmlFzUJVd9WPZ1jdmRde2/3z8hIe4LihBi7SZKuc3Co3U="
+    token: ${SONAR_TOKEN}
 
 after_success:
 - coveralls --root . -E ".*external.*" -E ".*tests.*"
 - build-wrapper-linux-x86-64 --out-dir bw-output make clean all
-- sonar-scanner -Dsonar.cfamily.build-wrapper-output=bw-output -X -Dsonar.login=$SONAR_TOKEN
+- sonar-scanner -Dsonar.cfamily.build-wrapper-output=bw-output -X -Dsonar.login=${SONAR_TOKEN}
