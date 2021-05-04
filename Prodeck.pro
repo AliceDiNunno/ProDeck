@@ -51,7 +51,7 @@ win32 {
 macx {
     SOURCES += ./libs/hidapi/mac/hid.c
 }
-linux {
+unix {
     SOURCES += ./libs/hidapi/linux/hid.c
 }
 
