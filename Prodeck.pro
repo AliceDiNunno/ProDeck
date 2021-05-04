@@ -43,8 +43,17 @@ FORMS +=
 TRANSLATIONS += \
     Prodeck_en_GB.ts
 
-INCLUDEPATH += /usr/local/include /usr/local/Cellar/hidapi/0.10.1/include
-LIBS += -L/usr/local/Cellar/hidapi/0.10.1/lib -lhidapi
+INCLUDEPATH += ./libs/ ./libs/hidapi
+
+win32 {
+    SOURCES += ./libs/hidapi/windows/hid.c
+}
+macx {
+    SOURCES += ./libs/hidapi/mac/hid.c
+}
+linux {
+    SOURCES += ./libs/hidapi/linux/hid.c
+}
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
