@@ -1,3 +1,24 @@
+os: linux
+dist: xenial
+
+language:
+  - cpp
+
+script:
+  - qmake
+  - make
+
+after_success:
+  - build-wrapper-linux-x86-64 --out-dir bw-output make clean all
+  - sonar-scanner
+
+cache:
+  directories:
+  - '$HOME/.sonar/cache'
+
+notifications:
+  email: false
+
 addons:
   sonarcloud:
     organization: "alicedinunno"
