@@ -1,6 +1,7 @@
 #include <QApplication>
 
 #include <QDebug>
+#include <signal.h>
 #include <hidapi/hidapi.h>
 
 #include "Core/Logging/Logging.h"
