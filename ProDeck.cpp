@@ -18,32 +18,38 @@ ProDeck::ProDeck()
 }
 
 void ProDeck::discoveryUpdated(QList<StreamDeckDevice *> deviceList) {
-    auto remainingDevices = deviceList;
-    for(int i = 0; i < deviceList.count(); i++) {
-        auto device = deviceList.at(i);
-        remainingDevices.removeOne(device);
+    for (int i = 0; i < deviceList.count(); i++) {
+        bool alreadyRunning = false;
 
-        bool deviceFound = false;
-
-        for (int j = 0; j < _runningDevices->keys().count(); j++) {
-            auto currentKey = _runningDevices->keys().at(j);
-            if  (currentKey->serialNumber() == device->serialNumber()) {
-                deviceFound = true;
+        for (int j = 0; j < _runningDevices->count(); j++) {
+            if (deviceList.at(i)->serialNumber() == _runningDevices->keys().at(j)->serialNumber()) {
+                alreadyRunning = true;
+                break;
             }
         }
 
-        if (!deviceFound) {
-            auto os = this->startDevice(device);
-            if (os != nullptr) {
-               _runningDevices->insert(device, os);
-            }
+        if (!alreadyRunning) {
+            _runningDevices->insert(deviceList.at(i), startDevice(deviceList.at(i)));
         }
     }
 
-    for (int i = 0; i < remainingDevices.count(); i++) {
-        auto device = remainingDevices.at(i);
+    QList<StreamDeckDevice *> stoppedDevices;
+    for (int i = 0; i < _runningDevices->count(); i++) {
+        bool stoppedRunning = true;
 
-        stopDevice(device);
+        for (int j = 0; j < deviceList.count(); j++) {
+            if (deviceList.at(j)->serialNumber() == _runningDevices->keys().at(i)->serialNumber()) {
+                stoppedRunning = false;
+            }
+        }
+
+        if (stoppedRunning) {
+            stoppedDevices.append(_runningDevices->keys().at(i));
+        }
+    }
+
+    for (int i = 0; i < stoppedDevices.count(); i++) {
+        stopDevice(stoppedDevices.at(i));
     }
 }
 
@@ -60,8 +66,16 @@ ProDeckOS *ProDeck::startDevice(StreamDeckDevice *dev) {
 }
 
 void ProDeck::stopDevice(StreamDeckDevice *dev) {
+    stopOS(_runningDevices->value(dev));
+
     Logging::log(QString("Closed Device: %1").arg(dev->serialNumber()));
-    dev->Close();
+    dev->deleteLater();
+
+   _runningDevices->remove(dev);
+}
+
+void ProDeck::stopOS(ProDeckOS *os) {
+    os->deleteLater();
 }
 
 ProDeck::~ProDeck() {

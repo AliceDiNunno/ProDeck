@@ -17,6 +17,11 @@ ProDeckOS::ProDeckOS(StreamDeckDevice *device): _device(device)
 
 }
 
+ProDeckOS::~ProDeckOS() {
+    log("Stopping ProDeckOS");
+    _pUpdateFrameTimer->stop();
+}
+
 int row = 0;
 int colorIndex = 0;
 

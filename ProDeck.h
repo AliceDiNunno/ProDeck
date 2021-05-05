@@ -20,6 +20,7 @@ private slots:
 private:
    ProDeckOS *startDevice(StreamDeckDevice * );
    void stopDevice(StreamDeckDevice *);
+   void stopOS(ProDeckOS *);
 
 private:
    StreamDeckDiscovery *_pDiscovery;

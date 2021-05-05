@@ -130,5 +130,10 @@ bool StreamDeckDevice::operator<(const StreamDeckDevice *other) const {
 }
 
 StreamDeckDevice::~StreamDeckDevice() {
-
+    if (_pReadTimer != nullptr) {
+        _pReadTimer->stop();
+        _pReadTimer->deleteLater();
+        _pReadTimer = nullptr;
+    }
+    Close();
 }

@@ -8,6 +8,7 @@ class ProDeckOS: public QObject
     Q_OBJECT
 public:
     ProDeckOS(StreamDeckDevice *device);
+    ~ProDeckOS();
 
 private:
     void ClearScreen();
