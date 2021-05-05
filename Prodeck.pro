@@ -19,6 +19,9 @@ SOURCES += \
     Core/Hid/HidDiscovery.cpp \
     Core/Logging/Logging.cpp \
     OS/Configuration.cpp \
+    OS/DeckView.cpp \
+    OS/MainView.cpp \
+    OS/NavigationBar.cpp \
     OS/ProDeckOS.cpp \
     OS/SplashScreen.cpp \
     ProDeck.cpp \
@@ -37,6 +40,8 @@ HEADERS += \
     Core/Logging/Logging.h \
     OS/Configuration.h \
     OS/DeckView.h \
+    OS/MainView.h \
+    OS/NavigationBar.h \
     OS/ProDeckOS.h \
     OS/SplashScreen.h \
     ProDeck.h
