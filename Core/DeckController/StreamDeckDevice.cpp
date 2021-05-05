@@ -18,8 +18,26 @@ StreamDeckDevice::StreamDeckDevice(StreamDeckDeviceInformation information, QStr
     _device = new HidDevice(hidInfo);
 }
 
+void StreamDeckDevice::readKeys() {
+    if (!_device->isOpen()) { return; }
+    QByteArray keyStatus = _device->read(0x101);
+
+    if (keyStatus.count() > 0) {
+        qDebug() << keyStatus.count() << keyStatus;
+        ResetStream();
+    }
+}
+
 bool StreamDeckDevice::Open() {
     auto open = _device->open();
+
+    if (open) {
+        _pReadTimer = new QTimer(this);
+        connect(_pReadTimer, SIGNAL(timeout()), this, SLOT(readKeys()));
+        _pReadTimer->setSingleShot(false);
+        _pReadTimer->start(500);
+    }
+
     return open;
 }
 
@@ -89,6 +107,7 @@ void StreamDeckDevice::Draw(short key, QPixmap pix) {
         bytes_remaining = bytes_remaining - this_length;
         page_number = page_number + 1;
     }
+    //_device->read(32 + 4);
     ResetStream();
 }
 

@@ -14,8 +14,12 @@ private:
     void SetBrightness(short int);
     void log(QString info);
 
+private slots:
+    void updateFrames();
+
 private:
     StreamDeckDevice *_device;
+    QTimer *_pUpdateFrameTimer;
 };
 
 #endif // PRODECKOS_H

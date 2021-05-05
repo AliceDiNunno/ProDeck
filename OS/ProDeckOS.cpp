@@ -1,3 +1,5 @@
+#include <QTimer>
+
 #include "ProDeckOS.h"
 #include "Core/Logging/Logging.h"
 #include <unistd.h>
@@ -8,6 +10,17 @@ ProDeckOS::ProDeckOS(StreamDeckDevice *device): _device(device)
     ClearScreen();
     SetBrightness(25);
 
+    _pUpdateFrameTimer = new QTimer(this);
+    connect(_pUpdateFrameTimer, SIGNAL(timeout()), this, SLOT(updateFrames()));
+    _pUpdateFrameTimer->setSingleShot(false);
+    _pUpdateFrameTimer->start(100);
+
+}
+
+int row = 0;
+int colorIndex = 0;
+
+void ProDeckOS::updateFrames() {
     auto red = QPixmap(96, 96);
     red.fill(Qt::red);
 
@@ -26,30 +39,22 @@ ProDeckOS::ProDeckOS(StreamDeckDevice *device): _device(device)
     auto purple = QPixmap(96, 96);
     purple.fill(QColor("purple"));
 
-    int row = 0;
-    int colorIndex = 0;
     QList<QPixmap> colors = {red, orange, yellow, green, blue, purple};
-    while (true) {
-        _device.Draw(row, colors[colorIndex]);
-        _device.Draw(row+8, colors[colorIndex]);
-        _device.Draw(row+16, colors[colorIndex]);
-        _device.Draw(row+24, colors[colorIndex]);
-        row++;
 
-        if (row > 7) {
-            row = 0;
-            colorIndex++;
-        }
+    _device->Draw(row, colors[colorIndex]);
+    _device->Draw(row+8, colors[colorIndex]);
+    _device->Draw(row+16, colors[colorIndex]);
+    _device->Draw(row+24, colors[colorIndex]);
+    row++;
 
-        if (colorIndex >= colors.count()) {
-            colorIndex = 0;
-        }
-
-
-        usleep(10000);
+    if (row > 7) {
+        row = 0;
+        colorIndex++;
     }
 
-
+    if (colorIndex >= colors.count()) {
+        colorIndex = 0;
+    }
 }
 
 void ProDeckOS::ClearScreen() {

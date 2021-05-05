@@ -12,6 +12,7 @@ public:
     bool open();
     void close();
 
+    QByteArray read(int );
     void writeFeature(const unsigned char *, int);
     void write(QByteArray );
 

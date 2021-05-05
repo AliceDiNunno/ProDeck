@@ -23,10 +23,18 @@ public:
     bool operator<(const StreamDeckDevice *) const;
     QString serialNumber();
 
+private slots:
+    void readKeys();
+
+signals:
+    void keyUp(int);
+    void keyDown(int);
+
 private:
     HidDevice *_device;
     StreamDeckDeviceInformation _deviceType;
     QString _serialNumber;
+    QTimer *_pReadTimer;
 };
 
 #endif // STREAMDECKDEVICE_H
