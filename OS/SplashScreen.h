@@ -6,8 +6,7 @@
 class SplashScreen: public DeckView
 {
 public:
-    SplashScreen();
-
+    SplashScreen(QRect window);
     void refresh();
 };
 

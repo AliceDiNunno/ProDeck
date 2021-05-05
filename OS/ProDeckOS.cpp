@@ -11,7 +11,7 @@ ProDeckOS::ProDeckOS(StreamDeckDevice *device): _device(device)
     ClearScreen();
     SetBrightness(25);
 
-    _pCurrentView = new SplashScreen();
+    _pCurrentView = new SplashScreen(QRect(QPoint(0, 0), device->size()));
 
     connect(_pCurrentView, SIGNAL(refreshKey(int, QPixmap)), this, SLOT(refreshKey(int, QPixmap)));
 

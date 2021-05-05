@@ -1,6 +1,6 @@
 #include "SplashScreen.h"
 
-SplashScreen::SplashScreen()
+SplashScreen::SplashScreen(QRect window): DeckView(window)
 {
 
 }

@@ -2,6 +2,7 @@
 #include <QBuffer>
 #include <QIODevice>
 #include <QDebug>
+#include <QSize>
 
 #include "StreamDeckDevice.h"
 #include "Core/Logging/Logging.h"
@@ -16,6 +17,10 @@ StreamDeckDevice::StreamDeckDevice(StreamDeckDeviceInformation information, QStr
     hidInfo.vendorName = "Elgato";
 
     _device = new HidDevice(hidInfo);
+}
+
+QSize StreamDeckDevice::size() {
+    return QSize(_deviceType.columns, _deviceType.rows);
 }
 
 void StreamDeckDevice::readKeys() {

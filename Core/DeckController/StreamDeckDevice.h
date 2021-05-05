@@ -22,6 +22,7 @@ public:
     bool operator==(const StreamDeckDevice *) const;
     bool operator<(const StreamDeckDevice *) const;
     QString serialNumber();
+    QSize size();
 
 private slots:
     void readKeys();
