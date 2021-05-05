@@ -51,7 +51,10 @@ win32 {
     SOURCES += ./libs/hidapi/windows/hid.c
 }
 macx {
+    HEADERS += macos_appnap.h
     SOURCES += ./libs/hidapi/mac/hid.c
+    OBJECTIVE_SOURCES += macos_appnap.mm
+    LIBS += -framework Foundation
 }
 unix:!macx {
     SOURCES += ./libs/hidapi/linux/hid.c

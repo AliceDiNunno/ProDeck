@@ -6,6 +6,7 @@
 
 #include "Core/Logging/Logging.h"
 #include "ProDeck.h"
+#include "macos_appnap.h"
 #define MAX_STR 255
 
 ProDeck *app;
@@ -27,6 +28,10 @@ void signalCatched(int ) {
 
 int main(int argc, char *argv[])
 {
+#ifdef Q_OS_DARWIN
+    qDebug() << "disabling app nap";
+    disableAppNap();
+#endif
     int hidInitStatus = hid_init();
     if (hidInitStatus == -1) {
         Logging::error("Hidapi was unable to start correctly");
