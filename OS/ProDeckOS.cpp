@@ -1,5 +1,6 @@
 #include <QTimer>
 
+#include "SplashScreen.h"
 #include "ProDeckOS.h"
 #include "Core/Logging/Logging.h"
 #include <unistd.h>
@@ -10,6 +11,10 @@ ProDeckOS::ProDeckOS(StreamDeckDevice *device): _device(device)
     ClearScreen();
     SetBrightness(25);
 
+    _pCurrentView = new SplashScreen();
+
+    connect(_pCurrentView, SIGNAL(refreshKey(int, QPixmap)), this, SLOT(refreshKey(int, QPixmap)));
+
     _pUpdateFrameTimer = new QTimer(this);
     connect(_pUpdateFrameTimer, SIGNAL(timeout()), this, SLOT(updateFrames()));
     _pUpdateFrameTimer->setSingleShot(false);
@@ -17,49 +22,13 @@ ProDeckOS::ProDeckOS(StreamDeckDevice *device): _device(device)
 
 }
 
-ProDeckOS::~ProDeckOS() {
-    log("Stopping ProDeckOS");
-    _pUpdateFrameTimer->stop();
-}
-
-int row = 0;
-int colorIndex = 0;
 
 void ProDeckOS::updateFrames() {
-    auto red = QPixmap(96, 96);
-    red.fill(Qt::red);
+    _pCurrentView->refresh();
+}
 
-    auto orange = QPixmap(96, 96);
-    orange.fill(QColor(243, 114, 32));
-
-    auto yellow = QPixmap(96, 96);
-    yellow.fill(Qt::yellow);
-
-    auto green = QPixmap(96, 96);
-    green.fill(Qt::green);
-
-    auto blue = QPixmap(96, 96);
-    blue.fill(Qt::blue);
-
-    auto purple = QPixmap(96, 96);
-    purple.fill(QColor("purple"));
-
-    QList<QPixmap> colors = {red, orange, yellow, green, blue, purple};
-
-    _device->Draw(row, colors[colorIndex]);
-    _device->Draw(row+8, colors[colorIndex]);
-    _device->Draw(row+16, colors[colorIndex]);
-    _device->Draw(row+24, colors[colorIndex]);
-    row++;
-
-    if (row > 7) {
-        row = 0;
-        colorIndex++;
-    }
-
-    if (colorIndex >= colors.count()) {
-        colorIndex = 0;
-    }
+void ProDeckOS::refreshKey(int index, QPixmap key) {
+    _device->Draw(index, key);
 }
 
 void ProDeckOS::ClearScreen() {
@@ -74,3 +43,9 @@ void ProDeckOS::SetBrightness(short brightness) {
 void ProDeckOS::log(QString info) {
     Logging::log(QString("[%1] %2").arg(_device->serialNumber()).arg(info));
 }
+
+ProDeckOS::~ProDeckOS() {
+    log("Stopping ProDeckOS");
+    _pUpdateFrameTimer->stop();
+}
+

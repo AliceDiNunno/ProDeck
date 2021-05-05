@@ -36,6 +36,7 @@ HEADERS += \
     Core/Hid/HidDiscovery.h \
     Core/Logging/Logging.h \
     OS/Configuration.h \
+    OS/DeckView.h \
     OS/ProDeckOS.h \
     OS/SplashScreen.h \
     ProDeck.h

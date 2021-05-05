@@ -3,6 +3,7 @@
 
 #include "Core/DeckController/StreamDeckDevice.h"
 
+class DeckView;
 class ProDeckOS: public QObject
 {
     Q_OBJECT
@@ -17,8 +18,10 @@ private:
 
 private slots:
     void updateFrames();
+    void refreshKey(int index, QPixmap key);
 
 private:
+    DeckView *_pCurrentView;
     StreamDeckDevice *_device;
     QTimer *_pUpdateFrameTimer;
 };
