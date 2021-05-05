@@ -19,11 +19,7 @@ bool HidDevice::open() {
     _pDeviceDescriptor = hid_open(_device.vendorId, _device.productId, _device.serialNumber.toStdWString().c_str());
 
     if (_pDeviceDescriptor != nullptr) {
-        if (hid_set_nonblocking(_pDeviceDescriptor, 1) == 0) {
-            qDebug() << "Non blocking activated";
-        } else {
-            qDebug() << "Failed to activate non blocking";
-        }
+        hid_set_nonblocking(_pDeviceDescriptor, 1);
     }
     return isOpen();
 }
@@ -39,7 +35,7 @@ void HidDevice::write(QByteArray array) {
 }
 
 QByteArray HidDevice::read(int size) {
-    if (_pDeviceDescriptor == nullptr) { return QByteArray(); }
+    if (isOpen()) { return QByteArray(); }
 
     QElapsedTimer timer;
     timer.start();
@@ -48,10 +44,8 @@ QByteArray HidDevice::read(int size) {
 
     int readCount = hid_read_timeout(_pDeviceDescriptor, data, size, 1);
 
-    qDebug() << "Read: " << readCount;
-
     if (readCount == -1) {
-        qDebug() << "Error on HID read";
+        close();
     }
 
     QByteArray array(size, 0);
@@ -72,4 +66,5 @@ void HidDevice::close() {
     if (_pDeviceDescriptor == nullptr) return;
 
     hid_close(_pDeviceDescriptor);
+    _pDeviceDescriptor = nullptr;
 }
