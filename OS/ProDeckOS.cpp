@@ -20,8 +20,20 @@ ProDeckOS::ProDeckOS(StreamDeckDevice *device): _device(device)
     _pUpdateFrameTimer->setSingleShot(false);
     _pUpdateFrameTimer->start(100);
 
+    _pSplashScreenTimer = new QTimer(this);
+    connect(_pSplashScreenTimer, SIGNAL(timeout()), this, SLOT(endSplash()));
+    _pSplashScreenTimer->start(1000*5);
 }
 
+void ProDeckOS::endSplash() {
+   log("Closing Splash Screen");
+   _pSplashScreenTimer->stop();
+   SplashScreen *pSplash = dynamic_cast<SplashScreen *>(_pCurrentView);
+
+   if (pSplash != nullptr) {
+        pSplash->endSplashScreen();
+   }
+}
 
 void ProDeckOS::updateFrames() {
     _pCurrentView->refresh();

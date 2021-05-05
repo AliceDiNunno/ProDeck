@@ -18,12 +18,17 @@ private:
 
 private slots:
     void updateFrames();
+    void endSplash();
     void refreshKey(int index, QPixmap key);
 
 private:
     DeckView *_pCurrentView;
     StreamDeckDevice *_device;
     QTimer *_pUpdateFrameTimer;
+
+
+    ///temporary
+    QTimer *_pSplashScreenTimer;
 };
 
 #endif // PRODECKOS_H
