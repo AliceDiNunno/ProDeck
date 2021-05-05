@@ -15,15 +15,15 @@ public:
     ~ProDeck();
 
 private slots:
-   void discoveryUpdated(QList<StreamDeckDevice> );
+   void discoveryUpdated(QList<StreamDeckDevice *> );
 
 private:
-   ProDeckOS *startDevice(StreamDeckDevice );
-   void stopDevice(StreamDeckDevice );
+   ProDeckOS *startDevice(StreamDeckDevice * );
+   void stopDevice(StreamDeckDevice *);
 
 private:
    StreamDeckDiscovery *_pDiscovery;
-   QMap<StreamDeckDevice, ProDeckOS*> *_runningDevices;
+   QMap<StreamDeckDevice *, ProDeckOS*> *_runningDevices;
 };
 
 #endif // PRODECK_H

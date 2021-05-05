@@ -3,10 +3,11 @@
 
 #include "Core/DeckController/StreamDeckDevice.h"
 
-class ProDeckOS
+class ProDeckOS: public QObject
 {
+    Q_OBJECT
 public:
-    ProDeckOS(StreamDeckDevice device);
+    ProDeckOS(StreamDeckDevice *device);
 
 private:
     void ClearScreen();
@@ -14,7 +15,7 @@ private:
     void log(QString info);
 
 private:
-    StreamDeckDevice _device;
+    StreamDeckDevice *_device;
 };
 
 #endif // PRODECKOS_H

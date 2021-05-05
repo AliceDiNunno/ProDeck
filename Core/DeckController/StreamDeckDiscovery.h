@@ -17,7 +17,7 @@ public:
     void stop();
 
 signals:
-    void deviceListUpdated(QList<StreamDeckDevice > );
+    void deviceListUpdated(QList<StreamDeckDevice *> );
 
 private slots:
     void refresh();

@@ -1,7 +1,12 @@
+#include <QTimer>
+#include <QBuffer>
+#include <QIODevice>
+#include <QDebug>
+
 #include "StreamDeckDevice.h"
 #include "Core/Logging/Logging.h"
 
-StreamDeckDevice::StreamDeckDevice(StreamDeckDeviceInformation information, QString serial): _deviceType(information), _serialNumber(serial)
+StreamDeckDevice::StreamDeckDevice(StreamDeckDeviceInformation information, QString serial): QObject(), _deviceType(information), _serialNumber(serial)
 {
     HidDeviceInformation hidInfo;
     hidInfo.productId = information.productId;
@@ -14,7 +19,8 @@ StreamDeckDevice::StreamDeckDevice(StreamDeckDeviceInformation information, QStr
 }
 
 bool StreamDeckDevice::Open() {
-    return _device->open();
+    auto open = _device->open();
+    return open;
 }
 
 void StreamDeckDevice::Close() {
@@ -42,8 +48,6 @@ void StreamDeckDevice::ResetStream() {
     _device->write(payload);
 }
 
-#include <QBuffer>
-#include <QIODevice>
 void StreamDeckDevice::Draw(short key, QPixmap pix) {
     if (key < 0 || key > 31) {
         Logging::log("StreamDeckDevice: Attempting to write to a non-existant key. Aborting.");
@@ -55,11 +59,9 @@ void StreamDeckDevice::Draw(short key, QPixmap pix) {
     buffer.open(QIODevice::WriteOnly);
     pix.save(&buffer, "JPEG");
 
-
     auto IMAGE_REPORT_LENGTH = 1024;
     auto IMAGE_REPORT_HEADER_LENGTH = 8;
     auto IMAGE_REPORT_PAYLOAD_LENGTH = IMAGE_REPORT_LENGTH - IMAGE_REPORT_HEADER_LENGTH;
-
 
     auto page_number = 0;
     auto bytes_remaining = bArray.size();
@@ -100,10 +102,14 @@ QString StreamDeckDevice::serialNumber() {
     return _serialNumber;
 }
 
-bool StreamDeckDevice::operator==(const StreamDeckDevice &other) const {
-    return this->_serialNumber == other._serialNumber;
+bool StreamDeckDevice::operator==(const StreamDeckDevice *other) const {
+    return this->_serialNumber == other->_serialNumber;
 }
 
-bool StreamDeckDevice::operator<(const StreamDeckDevice &other) const {
-    return this->_serialNumber < other._serialNumber;
+bool StreamDeckDevice::operator<(const StreamDeckDevice *other) const {
+    return this->_serialNumber < other->_serialNumber;
+}
+
+StreamDeckDevice::~StreamDeckDevice() {
+
 }

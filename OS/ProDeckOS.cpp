@@ -2,7 +2,7 @@
 #include "Core/Logging/Logging.h"
 #include <unistd.h>
 
-ProDeckOS::ProDeckOS(StreamDeckDevice device): _device(device)
+ProDeckOS::ProDeckOS(StreamDeckDevice *device): _device(device)
 {
     log("Starting ProDeckOS");
     ClearScreen();
@@ -54,7 +54,7 @@ ProDeckOS::ProDeckOS(StreamDeckDevice device): _device(device)
 
 void ProDeckOS::ClearScreen() {
     log("Clearing screen");
-    _device.Clear();
+    _device->Clear();
 }
 
 void ProDeckOS::SetBrightness(short brightness) {
@@ -62,5 +62,5 @@ void ProDeckOS::SetBrightness(short brightness) {
 }
 
 void ProDeckOS::log(QString info) {
-    Logging::log(QString("[%1] %2").arg(_device.serialNumber()).arg(info));
+    Logging::log(QString("[%1] %2").arg(_device->serialNumber()).arg(info));
 }

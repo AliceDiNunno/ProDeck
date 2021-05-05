@@ -23,12 +23,12 @@ void StreamDeckDiscovery::stop() {
 void StreamDeckDiscovery::refresh() {
     auto items = HidDiscovery::startDiscovery(_device.productId, _device.vendorId);
 
-    auto updatedItems = QList<StreamDeckDevice>();
+    auto updatedItems = QList<StreamDeckDevice *>();
 
     for (int iItem = 0; iItem < items.count(); iItem++) {
         auto currentDevice = items[iItem];
 
-        updatedItems.append(StreamDeckDevice(_device, currentDevice.serialNumber));
+        updatedItems.append(new StreamDeckDevice(_device, currentDevice.serialNumber));
     }
 
     emit deviceListUpdated(updatedItems);
