@@ -1,5 +1,0 @@
-/Users/alice/ProDeck/cmake-build-debug/CMakeFiles/ProDeck.dir
-/Users/alice/ProDeck/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/alice/ProDeck/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/Users/alice/ProDeck/cmake-build-debug/CMakeFiles/ProDeck_autogen_timestamp_deps.dir
-/Users/alice/ProDeck/cmake-build-debug/CMakeFiles/ProDeck_autogen.dir
