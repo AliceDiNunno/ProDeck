@@ -4,7 +4,7 @@
 #include <signal.h>
 #include <hidapi/hidapi.h>
 
-#include "Core/Logging/Logging.h"
+#include "src/core/Logging/Logging.h"
 #include "ProDeck.h"
 #include "macos_appnap.h"
 #define MAX_STR 255
@@ -29,7 +29,6 @@ void signalCatched(int ) {
 int main(int argc, char *argv[])
 {
 #ifdef Q_OS_DARWIN
-    qDebug() << "disabling app nap";
     disableAppNap();
 #endif
     int hidInitStatus = hid_init();

@@ -1,0 +1,847 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "ProDeck"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"target_link_libraries",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 35,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 83,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 19,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 20,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 21,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 22,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 23,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 24,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 25,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 26,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 27,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 28,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 29,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 30,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g -isysroot /Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.0.sdk"
+				},
+				{
+					"fragment" : "-std=gnu++17"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 2,
+					"define" : "QT_CORE_LIB"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "QT_GUI_LIB"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "QT_WIDGETS_LIB"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"path" : "/Users/alice/ProDeck/cmake-build-debug"
+				},
+				{
+					"path" : "/Users/alice/ProDeck"
+				},
+				{
+					"backtrace" : 0,
+					"path" : "/Users/alice/ProDeck/cmake-build-debug/ProDeck_autogen/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/Users/alice/ProDeck/."
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/Users/alice/ProDeck/src/core"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "/Users/alice/ProDeck/src/core/DeckController"
+				},
+				{
+					"backtrace" : 6,
+					"path" : "/Users/alice/ProDeck/src/core/Device"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/Users/alice/ProDeck/src/core/Device/Elgato"
+				},
+				{
+					"backtrace" : 8,
+					"path" : "/Users/alice/ProDeck/src/core/Device/Razer"
+				},
+				{
+					"backtrace" : 9,
+					"path" : "/Users/alice/ProDeck/src/core/Hid"
+				},
+				{
+					"backtrace" : 10,
+					"path" : "/Users/alice/ProDeck/src/core/Logging"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "/Users/alice/ProDeck/src/core/RazerController"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "/Users/alice/ProDeck/libs"
+				},
+				{
+					"backtrace" : 13,
+					"path" : "/Users/alice/ProDeck/libs/hidapi"
+				},
+				{
+					"backtrace" : 14,
+					"path" : "/Users/alice/ProDeck/src/OS"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/Users/Alice/Qt/6.3.0/macos/lib/QtCore.framework/Headers"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/Users/Alice/Qt/6.3.0/macos/lib/QtCore.framework"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/Users/Alice/Qt/6.3.0/macos/mkspecs/macx-clang"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/Users/Alice/Qt/6.3.0/macos/include"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/Users/Alice/Qt/6.3.0/macos/lib/QtWidgets.framework/Headers"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/Users/Alice/Qt/6.3.0/macos/lib/QtWidgets.framework"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/Users/Alice/Qt/6.3.0/macos/lib/QtGui.framework/Headers"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/Users/Alice/Qt/6.3.0/macos/lib/QtGui.framework"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					2,
+					2
+				],
+				"standard" : "17"
+			},
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				3,
+				7,
+				9,
+				12,
+				15,
+				17,
+				20,
+				22,
+				24,
+				26,
+				30,
+				32,
+				34,
+				36,
+				38,
+				40,
+				43,
+				44,
+				45
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g -isysroot /Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.0.sdk"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 2,
+					"define" : "QT_CORE_LIB"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "QT_GUI_LIB"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "QT_WIDGETS_LIB"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"path" : "/Users/alice/ProDeck/cmake-build-debug"
+				},
+				{
+					"path" : "/Users/alice/ProDeck"
+				},
+				{
+					"backtrace" : 0,
+					"path" : "/Users/alice/ProDeck/cmake-build-debug/ProDeck_autogen/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/Users/alice/ProDeck/."
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/Users/alice/ProDeck/src/core"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "/Users/alice/ProDeck/src/core/DeckController"
+				},
+				{
+					"backtrace" : 6,
+					"path" : "/Users/alice/ProDeck/src/core/Device"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/Users/alice/ProDeck/src/core/Device/Elgato"
+				},
+				{
+					"backtrace" : 8,
+					"path" : "/Users/alice/ProDeck/src/core/Device/Razer"
+				},
+				{
+					"backtrace" : 9,
+					"path" : "/Users/alice/ProDeck/src/core/Hid"
+				},
+				{
+					"backtrace" : 10,
+					"path" : "/Users/alice/ProDeck/src/core/Logging"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "/Users/alice/ProDeck/src/core/RazerController"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "/Users/alice/ProDeck/libs"
+				},
+				{
+					"backtrace" : 13,
+					"path" : "/Users/alice/ProDeck/libs/hidapi"
+				},
+				{
+					"backtrace" : 14,
+					"path" : "/Users/alice/ProDeck/src/OS"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/Users/Alice/Qt/6.3.0/macos/lib/QtCore.framework/Headers"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/Users/Alice/Qt/6.3.0/macos/lib/QtCore.framework"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/Users/Alice/Qt/6.3.0/macos/mkspecs/macx-clang"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/Users/Alice/Qt/6.3.0/macos/include"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/Users/Alice/Qt/6.3.0/macos/lib/QtWidgets.framework/Headers"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/Users/Alice/Qt/6.3.0/macos/lib/QtWidgets.framework"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/Users/Alice/Qt/6.3.0/macos/lib/QtGui.framework/Headers"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/Users/Alice/Qt/6.3.0/macos/lib/QtGui.framework"
+				}
+			],
+			"language" : "C",
+			"sourceIndexes" : 
+			[
+				28
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"id" : "ProDeck_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 0,
+			"id" : "ProDeck_autogen::@6890427a1f51a3e7e1df"
+		}
+	],
+	"id" : "ProDeck::@6890427a1f51a3e7e1df",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-g",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "-Wl,-rpath,/Users/Alice/Qt/6.3.0/macos/lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-framework Foundation",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "/Users/Alice/Qt/6.3.0/macos/lib/QtWidgets.framework/Versions/A/QtWidgets",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "/Users/Alice/Qt/6.3.0/macos/lib/QtGui.framework/Versions/A/QtGui",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "/Users/Alice/Qt/6.3.0/macos/lib/QtCore.framework/Versions/A/QtCore",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-framework DiskArbitration",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-framework IOKit",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-framework",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "OpenGL",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-framework",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "AGL",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-framework AppKit",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-framework ImageIO",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-framework Metal",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "ProDeck",
+	"nameOnDisk" : "ProDeck",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				3,
+				7,
+				9,
+				12,
+				15,
+				17,
+				20,
+				22,
+				24,
+				26,
+				28,
+				30,
+				32,
+				34,
+				36,
+				38,
+				40,
+				43,
+				44,
+				45
+			]
+		},
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				2,
+				4,
+				5,
+				6,
+				8,
+				10,
+				11,
+				13,
+				14,
+				16,
+				18,
+				19,
+				21,
+				23,
+				25,
+				27,
+				29,
+				31,
+				33,
+				35,
+				37,
+				39,
+				41,
+				42,
+				46
+			]
+		},
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				47
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				48
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 0,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/ProDeck_autogen/mocs_compilation.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/core/DeckController/StreamDeckDevice.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/core/DeckController/StreamDeckDevice.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/core/DeckController/StreamDeckDiscovery.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/core/DeckController/StreamDeckDiscovery.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/core/Device/Elgato/StreamDeckAvailableDevice.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/core/Device/Elgato/StreamDeckDeviceInformation.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/core/Device/Elgato/streamdeckfactory.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/core/Device/Elgato/StreamDeckFactory.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/core/Device/Elgato/StreamDeckXLDevice.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/core/Device/Elgato/StreamDeckXLDevice.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/core/Device/Razer/RazerAvailableDevice.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/core/Device/Razer/RazerBlackWidowV3Device.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/core/Device/Razer/RazerBlackWidowV3Device.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/core/Device/Razer/RazerDeviceInformation.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/core/Device/Razer/RazerFactory.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/core/Device/Razer/RazerFactory.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/core/Hid/HidDevice.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/core/Hid/HidDevice.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/core/Hid/HidDeviceInformation.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/core/Hid/HidDiscovery.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/core/Hid/HidDiscovery.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/core/Logging/Logging.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/core/Logging/Logging.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/core/RazerController/RazerDevice.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/core/RazerController/RazerDevice.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/core/RazerController/RazerDiscovery.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/core/RazerController/RazerDiscovery.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "libs/hidapi/mac/hid.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "libs/hidapi/hidapi.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/OS/Configuration.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/OS/Configuration.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/OS/DeckView.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/OS/DeckView.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/OS/MainView.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/OS/MainView.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/OS/NavigationBar.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/OS/NavigationBar.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/OS/ProDeckOS.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/OS/ProDeckOS.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/OS/SplashScreen.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/OS/SplashScreen.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "macos_appnap.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "macos_appnap.mm",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "main.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "ProDeck.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "ProDeck.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/ProDeck_autogen/timestamp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/ProDeck_autogen/timestamp.rule",
+			"sourceGroupIndex" : 3
+		}
+	],
+	"type" : "EXECUTABLE"
+}

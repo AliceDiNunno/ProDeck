@@ -1,8 +1,8 @@
 #include "ProDeck.h"
-#include "Core/Logging/Logging.h"
-
 #include <QDebug>
-#include "OS/ProDeckOS.h"
+
+#include "src/Core/Logging/Logging.h"
+#include "src/OS/ProDeckOS.h"
 
 ProDeck::ProDeck()
 {
@@ -15,6 +15,10 @@ ProDeck::ProDeck()
     connect(_pDiscovery, SIGNAL(deviceListUpdated(QList<StreamDeckDevice *>)), this, SLOT(discoveryUpdated(QList<StreamDeckDevice *>)));
 
     _pDiscovery->start();
+
+
+    _pRazerDiscovery = new RazerDiscovery(RazerAvailableDevice::XL2);
+    _pRazerDiscovery->start();
 }
 
 void ProDeck::discoveryUpdated(QList<StreamDeckDevice *> deviceList) {

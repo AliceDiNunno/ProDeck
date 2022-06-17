@@ -13,11 +13,15 @@ QMAKE_CXXFLAGS += -std=c++11
 SOURCES += \
     Core/DeckController/StreamDeckDevice.cpp \
     Core/DeckController/StreamDeckDiscovery.cpp \
-    Core/Device/StreamDeckFactory.cpp \
-    Core/Device/StreamDeckXLDevice.cpp \
+    Core/Device/Elgato/StreamDeckFactory.cpp \
+    Core/Device/Elgato/StreamDeckXLDevice.cpp \
+    Core/Device/Razer/RazerBlackWidowV3Device.cpp \
+    Core/Device/Razer/RazerFactory.cpp \
     Core/Hid/HidDevice.cpp \
     Core/Hid/HidDiscovery.cpp \
     Core/Logging/Logging.cpp \
+    Core/RazerController/RazerDevice.cpp \
+    Core/RazerController/RazerDiscovery.cpp \
     OS/Configuration.cpp \
     OS/DeckView.cpp \
     OS/MainView.cpp \
@@ -30,14 +34,20 @@ SOURCES += \
 HEADERS += \
     Core/DeckController/StreamDeckDevice.h \
     Core/DeckController/StreamDeckDiscovery.h \
-    Core/Device/StreamDeckAvailableDevice.h \
-    Core/Device/StreamDeckDeviceInformation.h \
-    Core/Device/StreamDeckFactory.h \
-    Core/Device/StreamDeckXLDevice.h \
+    Core/Device/Elgato/StreamDeckAvailableDevice.h \
+    Core/Device/Elgato/StreamDeckDeviceInformation.h \
+    Core/Device/Elgato/StreamDeckFactory.h \
+    Core/Device/Elgato/StreamDeckXLDevice.h \
+    Core/Device/Razer/RazerAvailableDevice.h \
+    Core/Device/Razer/RazerBlackWidowV3Device.h \
+    Core/Device/Razer/RazerDeviceInformation.h \
+    Core/Device/Razer/RazerFactory.h \
     Core/Hid/HidDevice.h \
     Core/Hid/HidDeviceInformation.h \
     Core/Hid/HidDiscovery.h \
     Core/Logging/Logging.h \
+    Core/RazerController/RazerDevice.h \
+    Core/RazerController/RazerDiscovery.h \
     OS/Configuration.h \
     OS/DeckView.h \
     OS/MainView.h \

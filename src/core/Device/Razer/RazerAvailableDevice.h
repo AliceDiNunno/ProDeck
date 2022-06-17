@@ -1,0 +1,8 @@
+#ifndef RAZERAVAILABLEDEVICE_H
+#define RAZERAVAILABLEDEVICE_H
+
+enum RazerAvailableDevice {
+    XL2,
+};
+
+#endif // RAZERAVAILABLEDEVICE_H

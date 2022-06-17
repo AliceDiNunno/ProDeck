@@ -2,8 +2,11 @@
 #define PRODECK_H
 
 #include <QObject>
-#include "Core/DeckController/StreamDeckDevice.h"
-#include "Core/DeckController/StreamDeckDiscovery.h"
+
+#include "src/Core/DeckController/StreamDeckDevice.h"
+#include "src/Core/DeckController/StreamDeckDiscovery.h"
+#include "src/Core/RazerController/RazerDevice.h"
+#include "src/Core/RazerController/RazerDiscovery.h"
 
 class ProDeckOS;
 class ProDeck: public QObject
@@ -24,6 +27,7 @@ private:
 
 private:
    StreamDeckDiscovery *_pDiscovery;
+   RazerDiscovery *_pRazerDiscovery;
    QMap<StreamDeckDevice *, ProDeckOS*> *_runningDevices;
 };
 
