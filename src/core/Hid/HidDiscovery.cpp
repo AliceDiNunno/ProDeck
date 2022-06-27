@@ -2,23 +2,14 @@
 
 #include "HidDiscovery.h"
 
-#include <QDebug>
+//Returns the list of serial number found, if a device has no SN, an empty string will appear in the list
+QList<QString> HidDiscovery::startDiscovery(unsigned short vendorId, unsigned short productId) {
+    hid_device_info *info = hid_enumerate(vendorId, productId);
 
-QList<HidDeviceInformation> HidDiscovery::startDiscovery(unsigned short vendorId, unsigned short productId) {
-    hid_device_info *info = hid_enumerate(productId, vendorId);
-
-    auto devices = QList<HidDeviceInformation>();
+    auto devices = QList<QString>();
 
     while (info != nullptr) {
-        auto device = HidDeviceInformation();
-
-        device.productId = info->product_id;
-        device.vendorId = info->vendor_id;
-        device.vendorName = QString::fromWCharArray(info->manufacturer_string);
-        device.productName = QString::fromWCharArray(info->product_string);
-        device.serialNumber = QString::fromWCharArray(info->serial_number);
-
-        devices << device;
+        devices << QString::fromWCharArray(info->serial_number);
 
         info = info->next;
     }

@@ -2,11 +2,11 @@
 #define RAZERDEVICEINFORMATION_H
 
 #include <QString>
+#include "../HidDevice.hpp"
 
-struct RazerDeviceInformation {
-    QString deviceName;
-    unsigned short vendorId = 0x1532;
-    unsigned short productId;
+class RazerDeviceInformation: public HidDevice {
+public:
+    RazerDeviceInformation();
 };
 
 #endif // RAZERDEVICEINFORMATION_H

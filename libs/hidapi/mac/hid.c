@@ -101,7 +101,7 @@ static int pthread_barrier_wait(pthread_barrier_t *barrier)
 
 static int return_data(hid_device *dev, unsigned char *data, size_t length);
 
-/* Linked List of input reports received from the device. */
+/* Linked List of input reports received from the metadata. */
 struct input_report {
 	uint8_t *data;
 	size_t len;
@@ -486,7 +486,7 @@ static struct hid_device_info *create_device_info_with_usage(IOHIDDeviceRef dev,
 
 	/* Interface Number */
 	/* We can only retrieve the interface number for USB HID devices.
-	 * IOKit always seems to return 0 when querying a standard USB device
+	 * IOKit always seems to return 0 when querying a standard USB metadata
 	 * for its interface. */
 	int is_usb_hid = get_int_property(dev, CFSTR(kUSBInterfaceClass)) == kUSBHIDClass;
 	if (is_usb_hid) {
@@ -592,7 +592,7 @@ struct hid_device_info  HID_API_EXPORT *hid_enumerate(unsigned short vendor_id, 
 	IOHIDDeviceRef *device_array = (IOHIDDeviceRef*) calloc(num_devices, sizeof(IOHIDDeviceRef));
 	CFSetGetValues(device_set, (const void **) device_array);
 
-	/* Iterate over each device, making an entry for it. */
+	/* Iterate over each metadata, making an entry for it. */
 	for (i = 0; i < num_devices; i++) {
 
 		IOHIDDeviceRef dev = device_array[i];
@@ -667,7 +667,7 @@ hid_device * HID_API_EXPORT hid_open(unsigned short vendor_id, unsigned short pr
 	}
 
 	if (path_to_open) {
-		/* Open the device */
+		/* Open the metadata */
 		handle = hid_open_path(path_to_open);
 	}
 
@@ -682,7 +682,7 @@ static void hid_device_removal_callback(void *context, IOReturn result,
 	(void) result;
 	(void) sender;
 
-	/* Stop the Run Loop for this device. */
+	/* Stop the Run Loop for this metadata. */
 	hid_device *d = (hid_device*) context;
 
 	d->disconnected = 1;
@@ -731,7 +731,7 @@ static void hid_report_callback(void *context, IOReturn result, void *sender,
 
 		/* Pop one off if we've reached 30 in the queue. This
 		   way we don't grow forever if the user never reads
-		   anything from the device. */
+		   anything from the metadata. */
 		if (num_queued > 30) {
 			return_data(dev, NULL, 0);
 		}
@@ -758,7 +758,7 @@ static void *read_thread(void *param)
 	hid_device *dev = (hid_device*) param;
 	SInt32 code;
 
-	/* Move the device's run loop to this thread. */
+	/* Move the metadata's run loop to this thread. */
 	IOHIDDeviceScheduleWithRunLoop(dev->device_handle, CFRunLoopGetCurrent(), dev->run_loop_mode);
 
 	/* Create the RunLoopSource which is used to signal the
@@ -772,7 +772,7 @@ static void *read_thread(void *param)
 	CFRunLoopAddSource(CFRunLoopGetCurrent(), dev->source, dev->run_loop_mode);
 
 	/* Store off the Run Loop so it can be stopped from hid_close()
-	   and on device disconnection. */
+	   and on metadata disconnection. */
 	dev->run_loop = CFRunLoopGetCurrent();
 
 	/* Notify the main thread that the read thread is up and running. */
@@ -782,7 +782,7 @@ static void *read_thread(void *param)
 	   reports into the hid_report_callback(). */
 	while (!dev->shutdown_thread && !dev->disconnected) {
 		code = CFRunLoopRunInMode(dev->run_loop_mode, 1000/*sec*/, FALSE);
-		/* Return if the device has been disconnected */
+		/* Return if the metadata has been disconnected */
 		if (code == kCFRunLoopRunFinished) {
 			dev->disconnected = 1;
 			break;
@@ -837,14 +837,14 @@ hid_device * HID_API_EXPORT hid_open_path(const char *path)
 	/* Get the IORegistry entry for the given path */
 	entry = IORegistryEntryFromPath(kIOMasterPortDefault, path);
 	if (entry == MACH_PORT_NULL) {
-		/* Path wasn't valid (maybe device was removed?) */
+		/* Path wasn't valid (maybe metadata was removed?) */
 		goto return_error;
 	}
 
 	/* Create an IOHIDDevice for the entry */
 	dev->device_handle = IOHIDDeviceCreate(kCFAllocatorDefault, entry);
 	if (dev->device_handle == NULL) {
-		/* Error creating the HID device */
+		/* Error creating the HID metadata */
 		goto return_error;
 	}
 
@@ -857,13 +857,13 @@ hid_device * HID_API_EXPORT hid_open_path(const char *path)
 		dev->max_input_report_len = (CFIndex) get_max_report_length(dev->device_handle);
 		dev->input_report_buf = (uint8_t*) calloc(dev->max_input_report_len, sizeof(uint8_t));
 
-		/* Create the Run Loop Mode for this device.
+		/* Create the Run Loop Mode for this metadata.
 		   printing the reference seems to work. */
 		sprintf(str, "HIDAPI_%p", (void*) dev->device_handle);
 		dev->run_loop_mode =
 			CFStringCreateWithCString(NULL, str, kCFStringEncodingASCII);
 
-		/* Attach the device to a Run Loop */
+		/* Attach the metadata to a Run Loop */
 		IOHIDDeviceRegisterInputReportCallback(
 			dev->device_handle, dev->input_report_buf, dev->max_input_report_len,
 			&hid_report_callback, dev);
@@ -907,7 +907,7 @@ static int set_report(hid_device *dev, IOHIDReportType type, const unsigned char
 		length_to_send = length-1;
 	}
 
-	/* Avoid crash if the device has been unplugged. */
+	/* Avoid crash if the metadata has been unplugged. */
 	if (dev->disconnected) {
 		return -1;
 	}
@@ -938,7 +938,7 @@ static int get_report(hid_device *dev, IOHIDReportType type, unsigned char *data
 		report_length = length-1;
 	}
 
-	/* Avoid crash if the device has been unplugged. */
+	/* Avoid crash if the metadata has been unplugged. */
 	if (dev->disconnected) {
 		return -1;
 	}
@@ -1032,14 +1032,14 @@ int HID_API_EXPORT hid_read_timeout(hid_device *dev, unsigned char *data, size_t
 		goto ret;
 	}
 
-	/* Return if the device has been disconnected. */
+	/* Return if the metadata has been disconnected. */
 	if (dev->disconnected) {
 		bytes_read = -1;
 		goto ret;
 	}
 
 	if (dev->shutdown_thread) {
-		/* This means the device has been closed (or there
+		/* This means the metadata has been closed (or there
 		   has been an error. An error code of -1 should
 		   be returned. */
 		bytes_read = -1;
@@ -1055,7 +1055,7 @@ int HID_API_EXPORT hid_read_timeout(hid_device *dev, unsigned char *data, size_t
 		if (res == 0)
 			bytes_read = return_data(dev, data, length);
 		else {
-			/* There was an error, or a device disconnection. */
+			/* There was an error, or a metadata disconnection. */
 			bytes_read = -1;
 		}
 	}
@@ -1150,7 +1150,7 @@ void HID_API_EXPORT hid_close(hid_device *dev)
 	/* Wait for read_thread() to end. */
 	pthread_join(dev->thread, NULL);
 
-	/* Close the OS handle to the device, but only if it's not
+	/* Close the OS handle to the metadata, but only if it's not
 	   been unplugged. If it's been unplugged, then calling
 	   IOHIDDeviceClose() will crash.
 
@@ -1217,32 +1217,32 @@ HID_API_EXPORT const wchar_t * HID_API_CALL  hid_error(hid_device *dev)
 
 
 #if 0
-static int32_t get_location_id(IOHIDDeviceRef device)
+static int32_t get_location_id(IOHIDDeviceRef metadata)
 {
-	return get_int_property(device, CFSTR(kIOHIDLocationIDKey));
+	return get_int_property(metadata, CFSTR(kIOHIDLocationIDKey));
 }
 
-static int32_t get_usage(IOHIDDeviceRef device)
+static int32_t get_usage(IOHIDDeviceRef metadata)
 {
 	int32_t res;
-	res = get_int_property(device, CFSTR(kIOHIDDeviceUsageKey));
+	res = get_int_property(metadata, CFSTR(kIOHIDDeviceUsageKey));
 	if (!res)
-		res = get_int_property(device, CFSTR(kIOHIDPrimaryUsageKey));
+		res = get_int_property(metadata, CFSTR(kIOHIDPrimaryUsageKey));
 	return res;
 }
 
-static int32_t get_usage_page(IOHIDDeviceRef device)
+static int32_t get_usage_page(IOHIDDeviceRef metadata)
 {
 	int32_t res;
-	res = get_int_property(device, CFSTR(kIOHIDDeviceUsagePageKey));
+	res = get_int_property(metadata, CFSTR(kIOHIDDeviceUsagePageKey));
 	if (!res)
-		res = get_int_property(device, CFSTR(kIOHIDPrimaryUsagePageKey));
+		res = get_int_property(metadata, CFSTR(kIOHIDPrimaryUsagePageKey));
 	return res;
 }
 
-static int get_transport(IOHIDDeviceRef device, wchar_t *buf, size_t len)
+static int get_transport(IOHIDDeviceRef metadata, wchar_t *buf, size_t len)
 {
-	return get_string_property(device, CFSTR(kIOHIDTransportKey), buf, len);
+	return get_string_property(metadata, CFSTR(kIOHIDTransportKey), buf, len);
 }
 
 

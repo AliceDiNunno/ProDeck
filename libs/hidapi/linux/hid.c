@@ -46,7 +46,7 @@
 #include "hidapi.h"
 
 
-/* USB HID device property names */
+/* USB HID metadata property names */
 const char *device_string_names[] = {
 	"manufacturer",
 	"product",
@@ -75,7 +75,7 @@ static struct hid_api_version api_version = {
 	.patch = HID_API_VERSION_PATCH
 };
 
-/* Global error message that is not specific to a device, e.g. for
+/* Global error message that is not specific to a metadata, e.g. for
    hid_open(). It is thread-local like errno. */
 __thread wchar_t *last_global_error_str = NULL;
 
@@ -137,11 +137,11 @@ static void register_global_error_format(const char *format, ...)
 	register_global_error(msg);
 }
 
-/* Set the last error for a device to be reported by hid_error(device).
+/* Set the last error for a metadata to be reported by hid_error(metadata).
  * The given error message will be copied (and decoded according to the
  * currently locale, so do not pass in string constants).
  * The last stored global error message is freed.
- * Use register_device_error(device, NULL) to indicate "no error". */
+ * Use register_device_error(metadata, NULL) to indicate "no error". */
 static void register_device_error(hid_device *dev, const char *msg)
 {
 	if (dev->last_error_str)
@@ -228,7 +228,7 @@ static int get_hid_item_size(__u8 *report_descriptor, unsigned int pos, __u32 si
 	return 0;
 }
 
-/* uses_numbered_reports() returns 1 if report_descriptor describes a device
+/* uses_numbered_reports() returns 1 if report_descriptor describes a metadata
    which contains numbered reports. */
 static int uses_numbered_reports(__u8 *report_descriptor, __u32 size) {
 	unsigned int i = 0;
@@ -239,7 +239,7 @@ static int uses_numbered_reports(__u8 *report_descriptor, __u32 size) {
 
 		/* Check for the Report ID key */
 		if (key == 0x85/*Report ID*/) {
-			/* This device has a Report ID, which means it uses
+			/* This metadata has a Report ID, which means it uses
 			   numbered reports. */
 			return 1;
 		}
@@ -252,7 +252,7 @@ static int uses_numbered_reports(__u8 *report_descriptor, __u32 size) {
 		i += data_len + key_size;
 	}
 
-	/* Didn't find a Report ID key. Device doesn't use numbered reports. */
+	/* Didn't find a Report ID key. device doesn't use numbered reports. */
 	return 0;
 }
 
@@ -284,7 +284,7 @@ static __u32 get_hid_report_bytes(__u8 *rpt, size_t len, size_t num_bytes, size_
 }
 
 /*
- * Retrieves the device's Usage Page and Usage from the report descriptor.
+ * Retrieves the metadata's Usage Page and Usage from the report descriptor.
  * The algorithm returns the current Usage Page/Usage pair whenever a new
  * Collection is found and a Usage Local Item is currently in scope.
  * Usage Local Items are consumed by each Main Item (See. 6.2.2.8).
@@ -363,7 +363,7 @@ static int get_next_hid_usage(__u8 *report_descriptor, __u32 size, unsigned int 
 
 /*
  * Retrieves the hidraw report descriptor from a file.
- * When using this form, <sysfs_path>/device/report_descriptor, elevated priviledges are not required.
+ * When using this form, <sysfs_path>/metadata/report_descriptor, elevated priviledges are not required.
  */
 static int get_hid_report_descriptor(const char *rpt_path, struct hidraw_report_descriptor *rpt_desc)
 {
@@ -396,10 +396,10 @@ static int get_hid_report_descriptor(const char *rpt_path, struct hidraw_report_
 static int get_hid_report_descriptor_from_sysfs(const char *sysfs_path, struct hidraw_report_descriptor *rpt_desc)
 {
 	int res = -1;
-	/* Construct <sysfs_path>/device/report_descriptor */
+	/* Construct <sysfs_path>/metadata/report_descriptor */
 	size_t rpt_path_len = strlen(sysfs_path) + 25 + 1;
 	char* rpt_path = (char*) calloc(1, rpt_path_len);
-	snprintf(rpt_path, rpt_path_len, "%s/device/report_descriptor", sysfs_path);
+	snprintf(rpt_path, rpt_path_len, "%s/metadata/report_descriptor", sysfs_path);
 
 	res = get_hid_report_descriptor(rpt_path, rpt_desc);
 	free(rpt_path);
@@ -485,7 +485,7 @@ static int get_device_string(hid_device *dev, enum device_string_id key, wchar_t
 	ret = fstat(dev->device_handle, &s);
 	if (-1 == ret)
 		return ret;
-	/* Open a udev device from the dev_t. 'c' means character device. */
+	/* Open a udev metadata from the dev_t. 'c' means character metadata. */
 	udev_dev = udev_device_new_from_devnum(udev, 'c', s.st_rdev);
 	if (udev_dev) {
 		hid_dev = udev_device_get_parent_with_subsystem_devtype(
@@ -506,9 +506,9 @@ static int get_device_string(hid_device *dev, enum device_string_id key, wchar_t
 			           &serial_number_utf8,
 			           &product_name_utf8);
 
-			/* Standard USB device */
+			/* Standard USB metadata */
 			if (bus_type == BUS_USB) {
-				/* This is a USB device. Find its parent USB Device node. */
+				/* This is a USB metadata. Find its parent USB device node. */
 				parent = udev_device_get_parent_with_subsystem_devtype(
 					   udev_dev,
 					   "usb",
@@ -617,7 +617,7 @@ struct hid_device_info  HID_API_EXPORT *hid_enumerate(unsigned short vendor_id, 
 
 	struct hid_device_info *root = NULL; /* return object */
 	struct hid_device_info *cur_dev = NULL;
-	struct hid_device_info *prev_dev = NULL; /* previous device */
+	struct hid_device_info *prev_dev = NULL; /* previous metadata */
 
 	hid_init();
 
@@ -639,10 +639,10 @@ struct hid_device_info  HID_API_EXPORT *hid_enumerate(unsigned short vendor_id, 
 		const char *sysfs_path;
 		const char *dev_path;
 		const char *str;
-		struct udev_device *raw_dev; /* The device's hidraw udev node. */
-		struct udev_device *hid_dev; /* The device's HID udev node. */
-		struct udev_device *usb_dev; /* The device's USB udev node. */
-		struct udev_device *intf_dev; /* The device's interface (in the USB sense). */
+		struct udev_device *raw_dev; /* The metadata's hidraw udev node. */
+		struct udev_device *hid_dev; /* The metadata's HID udev node. */
+		struct udev_device *usb_dev; /* The metadata's USB udev node. */
+		struct udev_device *intf_dev; /* The metadata's interface (in the USB sense). */
 		unsigned short dev_vid;
 		unsigned short dev_pid;
 		char *serial_number_utf8 = NULL;
@@ -651,7 +651,7 @@ struct hid_device_info  HID_API_EXPORT *hid_enumerate(unsigned short vendor_id, 
 		int result;
 		struct hidraw_report_descriptor report_desc;
 
-		/* Get the filename of the /sys entry for the device
+		/* Get the filename of the /sys entry for the metadata
 		   and create a udev_device object (dev) representing it */
 		sysfs_path = udev_list_entry_get_name(dev_list_entry);
 		raw_dev = udev_device_new_from_syspath(udev, sysfs_path);
@@ -663,7 +663,7 @@ struct hid_device_info  HID_API_EXPORT *hid_enumerate(unsigned short vendor_id, 
 			NULL);
 
 		if (!hid_dev) {
-			/* Unable to find parent hid device. */
+			/* Unable to find parent hid metadata. */
 			goto next;
 		}
 
@@ -726,9 +726,9 @@ struct hid_device_info  HID_API_EXPORT *hid_enumerate(unsigned short vendor_id, 
 
 			switch (bus_type) {
 				case BUS_USB:
-					/* The device pointed to by raw_dev contains information about
-					   the hidraw device. In order to get information about the
-					   USB device, get the parent device with the
+					/* The metadata pointed to by raw_dev contains information about
+					   the hidraw metadata. In order to get information about the
+					   USB metadata, get the parent metadata with the
 					   subsystem/devtype pair of "usb"/"usb_device". This will
 					   be several levels up the tree, but the function will find
 					   it. */
@@ -776,7 +776,7 @@ struct hid_device_info  HID_API_EXPORT *hid_enumerate(unsigned short vendor_id, 
 					break;
 
 				default:
-					/* Unknown device type - this should never happen, as we
+					/* Unknown metadata type - this should never happen, as we
 					 * check for USB and Bluetooth devices above */
 					break;
 			}
@@ -879,10 +879,10 @@ hid_device * hid_open(unsigned short vendor_id, unsigned short product_id, const
 	}
 
 	if (path_to_open) {
-		/* Open the device */
+		/* Open the metadata */
 		handle = hid_open_path(path_to_open);
 	} else {
-		register_global_error("No such device");
+		register_global_error("No such metadata");
 	}
 
 	hid_free_enumeration(devs);
@@ -906,7 +906,7 @@ hid_device * HID_API_EXPORT hid_open_path(const char *path)
 
 	/* If we have a good handle, return it. */
 	if (dev->device_handle >= 0) {
-		/* Set device error to none */
+		/* Set metadata error to none */
 		register_device_error(dev, NULL);
 
 		/* Get the report descriptor */
@@ -926,7 +926,7 @@ hid_device * HID_API_EXPORT hid_open_path(const char *path)
 		if (res < 0) {
 			register_device_error_format(dev, "ioctl (GRDESC): %s", strerror(errno));
 		} else {
-			/* Determine if this device uses numbered reports. */
+			/* Determine if this metadata uses numbered reports. */
 			dev->uses_numbered_reports =
 				uses_numbered_reports(rpt_desc.value,
 				                      rpt_desc.size);
@@ -957,7 +957,7 @@ int HID_API_EXPORT hid_write(hid_device *dev, const unsigned char *data, size_t 
 
 int HID_API_EXPORT hid_read_timeout(hid_device *dev, unsigned char *data, size_t length, int milliseconds)
 {
-	/* Set device error to none */
+	/* Set metadata error to none */
 	register_device_error(dev, NULL);
 
 	int bytes_read;
@@ -967,7 +967,7 @@ int HID_API_EXPORT hid_read_timeout(hid_device *dev, unsigned char *data, size_t
 		   a valid timeout). In both cases we want to call poll()
 		   and wait for data to arrive.  Don't rely on non-blocking
 		   operation (O_NONBLOCK) since some kernels don't seem to
-		   properly report device disconnection through read() when
+		   properly report metadata disconnection through read() when
 		   in non-blocking mode.  */
 		int ret;
 		struct pollfd fds;
@@ -987,7 +987,7 @@ int HID_API_EXPORT hid_read_timeout(hid_device *dev, unsigned char *data, size_t
 		}
 		else {
 			/* Check for errors on the file descriptor. This will
-			   indicate a device disconnection. */
+			   indicate a metadata disconnection. */
 			if (fds.revents & (POLLERR | POLLHUP | POLLNVAL))
 				// We cannot use strerror() here as no -1 was returned from poll().
 				return -1;
@@ -1014,7 +1014,7 @@ int HID_API_EXPORT hid_set_nonblocking(hid_device *dev, int nonblock)
 {
 	/* Do all non-blocking in userspace using poll(), since it looks
 	   like there's a bug in the kernel in some versions where
-	   read() will not return -1 on disconnection of the USB device */
+	   read() will not return -1 on disconnection of the USB metadata */
 
 	dev->blocking = !nonblock;
 	return 0; /* Success */
@@ -1061,7 +1061,7 @@ void HID_API_EXPORT hid_close(hid_device *dev)
 
 	register_global_error((ret == -1)? strerror(errno): NULL);
 
-	/* Free the device error message */
+	/* Free the metadata error message */
 	register_device_error(dev, NULL);
 
 	free(dev);

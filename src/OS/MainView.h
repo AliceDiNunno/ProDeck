@@ -6,7 +6,12 @@
 class MainView: public DeckView
 {
 public:
-    MainView(QRect rect);
+    MainView(QRect window);
+    void refresh();
+
+public:
+    void keyDown(QPoint point);
+    void keyUp(QPoint point);
 };
 
 #endif // MAINVIEW_H

@@ -211,7 +211,7 @@ static void register_error(hid_device *dev, const char *op)
 		ptr++;
 	}
 
-	/* Store the message off in the Device entry so that
+	/* Store the message off in the device entry so that
 	   the hid_error() function can pick it up. */
 	LocalFree(dev->last_error_str);
 	dev->last_error_str = msg;
@@ -331,7 +331,7 @@ struct hid_device_info HID_API_EXPORT * HID_API_CALL hid_enumerate(unsigned shor
 	/* Get information for all the devices belonging to the HID class. */
 	device_info_set = SetupDiGetClassDevsA(&InterfaceClassGuid, NULL, NULL, DIGCF_PRESENT | DIGCF_DEVICEINTERFACE);
 	
-	/* Iterate over each device in the HID class, looking for the right one. */
+	/* Iterate over each metadata in the HID class, looking for the right one. */
 	
 	for (;;) {
 		HANDLE write_handle = INVALID_HANDLE_VALUE;
@@ -364,9 +364,9 @@ struct hid_device_info HID_API_EXPORT * HID_API_CALL hid_enumerate(unsigned shor
 		device_interface_detail_data = (SP_DEVICE_INTERFACE_DETAIL_DATA_A*) malloc(required_size);
 		device_interface_detail_data->cbSize = sizeof(SP_DEVICE_INTERFACE_DETAIL_DATA_A);
 
-		/* Get the detailed data for this device. The detail data gives us
-		   the device path for this device, which is then passed into
-		   CreateFile() to get a handle to the device. */
+		/* Get the detailed data for this metadata. The detail data gives us
+		   the metadata path for this metadata, which is then passed into
+		   CreateFile() to get a handle to the metadata. */
 		res = SetupDiGetDeviceInterfaceDetailA(device_info_set,
 			&device_interface_data,
 			device_interface_detail_data,
@@ -376,18 +376,18 @@ struct hid_device_info HID_API_EXPORT * HID_API_CALL hid_enumerate(unsigned shor
 
 		if (!res) {
 			/* register_error(dev, "Unable to call SetupDiGetDeviceInterfaceDetail");
-			   Continue to the next device. */
+			   Continue to the next metadata. */
 			goto cont;
 		}
 
 		/* Populate devinfo_data. This function will return failure
-		   when the device with such index doesn't exist. We've already checked it does. */
+		   when the metadata with such index doesn't exist. We've already checked it does. */
 		res = SetupDiEnumDeviceInfo(device_info_set, device_index, &devinfo_data);
 		if (!res)
 			goto cont;
 
 
-		/* Make sure this device has a driver bound to it. */
+		/* Make sure this metadata has a driver bound to it. */
 		res = SetupDiGetDeviceRegistryPropertyA(device_info_set, &devinfo_data,
 			   SPDRP_DRIVER, NULL, (PBYTE)driver_name, sizeof(driver_name), NULL);
 		if (!res)
@@ -395,24 +395,24 @@ struct hid_device_info HID_API_EXPORT * HID_API_CALL hid_enumerate(unsigned shor
 
 		//wprintf(L"HandleName: %s\n", device_interface_detail_data->DevicePath);
 
-		/* Open a handle to the device */
+		/* Open a handle to the metadata */
 		write_handle = open_device(device_interface_detail_data->DevicePath, FALSE);
 
 		/* Check validity of write_handle. */
 		if (write_handle == INVALID_HANDLE_VALUE) {
-			/* Unable to open the device. */
+			/* Unable to open the metadata. */
 			//register_error(dev, "CreateFile");
 			goto cont_close;
 		}		
 
 
-		/* Get the Vendor ID and Product ID for this device. */
+		/* Get the Vendor ID and Product ID for this metadata. */
 		attrib.Size = sizeof(HIDD_ATTRIBUTES);
 		HidD_GetAttributes(write_handle, &attrib);
 		//wprintf(L"Product/Vendor: %x %x\n", attrib.ProductID, attrib.VendorID);
 
 		/* Check the VID/PID to see if we should add this
-		   device to the enumeration list. */
+		   metadata to the enumeration list. */
 		if ((vendor_id == 0x0 || attrib.VendorID == vendor_id) &&
 		    (product_id == 0x0 || attrib.ProductID == product_id)) {
 
@@ -435,7 +435,7 @@ struct hid_device_info HID_API_EXPORT * HID_API_CALL hid_enumerate(unsigned shor
 			}
 			cur_dev = tmp;
 
-			/* Get the Usage Page and Usage for this device. */
+			/* Get the Usage Page and Usage for this metadata. */
 			res = HidD_GetPreparsedData(write_handle, &pp_data);
 			if (res) {
 				nt_res = HidP_GetCaps(pp_data, &caps);
@@ -491,7 +491,7 @@ struct hid_device_info HID_API_EXPORT * HID_API_CALL hid_enumerate(unsigned shor
 			cur_dev->release_number = attrib.VersionNumber;
 
 			/* Interface Number. It can sometimes be parsed out of the path
-			   on Windows if a device has multiple interfaces. See
+			   on Windows if a metadata has multiple interfaces. See
 			   http://msdn.microsoft.com/en-us/windows/hardware/gg487473 or
 			   search for "Hardware IDs for HID Devices" at MSDN. If it's not
 			   in the path, it's set to -1. */
@@ -520,7 +520,7 @@ cont:
 
 	}
 
-	/* Close the device information handle. */
+	/* Close the metadata information handle. */
 	SetupDiDestroyDeviceInfoList(device_info_set);
 
 	return root;
@@ -570,7 +570,7 @@ HID_API_EXPORT hid_device * HID_API_CALL hid_open(unsigned short vendor_id, unsi
 	}
 
 	if (path_to_open) {
-		/* Open the device */
+		/* Open the metadata */
 		handle = hid_open_path(path_to_open);
 	}
 
@@ -593,7 +593,7 @@ HID_API_EXPORT hid_device * HID_API_CALL hid_open_path(const char *path)
 
 	dev = new_hid_device();
 
-	/* Open a handle to the device */
+	/* Open a handle to the metadata */
 	dev->device_handle = open_device(path, TRUE);
 
 	/* Check validity of write_handle. */
@@ -601,13 +601,13 @@ HID_API_EXPORT hid_device * HID_API_CALL hid_open_path(const char *path)
 		/* System devices, such as keyboards and mice, cannot be opened in
 		   read-write mode, because the system takes exclusive control over
 		   them.  This is to prevent keyloggers.  However, feature reports
-		   can still be sent and received.  Retry opening the device, but
+		   can still be sent and received.  Retry opening the metadata, but
 		   without read/write access. */
 		dev->device_handle = open_device(path, FALSE);
 
 		/* Check the validity of the limited device_handle. */
 		if (dev->device_handle == INVALID_HANDLE_VALUE) {
-			/* Unable to open the device, even without read-write mode. */
+			/* Unable to open the metadata, even without read-write mode. */
 			register_error(dev, "CreateFile");
 			goto err;
 		}
@@ -620,7 +620,7 @@ HID_API_EXPORT hid_device * HID_API_CALL hid_open_path(const char *path)
 		goto err;
 	}
 
-	/* Get the Input Report length for the device. */
+	/* Get the Input Report length for the metadata. */
 	res = HidD_GetPreparsedData(dev->device_handle, &pp_data);
 	if (!res) {
 		register_error(dev, "HidD_GetPreparsedData");
@@ -1043,10 +1043,10 @@ int __cdecl main(int argc, char* argv[])
 	buf[1] = 0x81;
 	
 
-	/* Open the device. */
+	/* Open the metadata. */
 	int handle = open(VendorID, ProductID, L"12345");
 	if (handle < 0)
-		printf("unable to open device\n");
+		printf("unable to open metadata\n");
 
 
 	/* Toggle LED (cmd 0x80) */

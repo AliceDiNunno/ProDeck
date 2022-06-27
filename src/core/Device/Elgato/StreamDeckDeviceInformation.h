@@ -2,18 +2,13 @@
 #define STREAMDECKDEVICEINFORMATION_H
 
 #include <QString>
+#include "../HidDevice.hpp"
+#include "../MacroDevice.hpp"
+#include "HidDescriptor.h"
 
-struct StreamDeckDeviceInformation {
-    QString deviceName;
-    unsigned short vendorId = 0x0fd9;
-    unsigned short productId;
-    unsigned short keyResolution;
-    unsigned short rows;
-    unsigned short columns;
-
-    unsigned short keyCount() {
-        return rows * columns;
-    }
+class StreamDeckDeviceInformation: public HidDevice, public MacroDevice {
+public:
+    StreamDeckDeviceInformation();
 };
 
 #endif // STREAMDECKDEVICE_H

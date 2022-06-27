@@ -1,8 +1,0 @@
-#ifndef STREAMDECKAVAILABLEDEVICE_H
-#define STREAMDECKAVAILABLEDEVICE_H
-
-enum StreamDeckAvailableDevice {
-    XL,
-};
-
-#endif // STREAMDECKAVAILABLEDEVICES_H

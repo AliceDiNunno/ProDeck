@@ -5,12 +5,12 @@ project(ProDeck VERSION 1.0.0)
 
 set(CMAKE_PREFIX_PATH
         ${CMAKE_PREFIX_PATH}
-        /Users/Alice/Qt/6.3.0/macos/lib/cmake/Qt6
-        /Users/Alice/Qt/6.3.0/macos/lib/cmake/Qt6Tools
-        /Users/Alice/Qt/6.3.0/macos/lib/cmake/Qt6CoreTools
-        /Users/Alice/Qt/6.3.0/macos/lib/cmake/Qt6WidgetsTools
-        /Users/Alice/Qt/6.3.0/macos/lib/cmake/Qt6GuiTools
-        /Users/Alice/Qt/6.3.0/macos/lib/cmake/Qt6DBusTools
+        /Users/Alice/Qt/6.3.1/macos/lib/cmake/Qt6
+        /Users/Alice/Qt/6.3.1/macos/lib/cmake/Qt6Tools
+        /Users/Alice/Qt/6.3.1/macos/lib/cmake/Qt6CoreTools
+        /Users/Alice/Qt/6.3.1/macos/lib/cmake/Qt6WidgetsTools
+        /Users/Alice/Qt/6.3.1/macos/lib/cmake/Qt6GuiTools
+        /Users/Alice/Qt/6.3.1/macos/lib/cmake/Qt6DBusTools
         )
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -19,11 +19,11 @@ set(CMAKE_CXX_STANDARD 17)
 include_directories(.)
 include_directories(src/core)
 include_directories(src/core/DeckController)
-include_directories(src/core/Device)
-include_directories(src/core/Device/Elgato)
-include_directories(src/core/Device/Razer)
-include_directories(src/core/Hid)
-include_directories(src/core/Logging)
+include_directories(src/core/device)
+include_directories(src/core/device/elgato)
+include_directories(src/core/device/razer)
+include_directories(src/core/hid)
+include_directories(src/core/logging)
 include_directories(src/core/RazerController)
 include_directories(libs)
 include_directories(libs/hidapi)
@@ -33,33 +33,30 @@ find_package(Qt6 COMPONENTS Core Widgets Network REQUIRED)
 qt_standard_project_setup()
 
 add_executable(ProDeck
-        src/core/DeckController/StreamDeckDevice.cpp
-        src/core/DeckController/StreamDeckDevice.h
-        src/core/DeckController/StreamDeckDiscovery.cpp
-        src/core/DeckController/StreamDeckDiscovery.h
-        src/core/Device/Elgato/StreamDeckAvailableDevice.h
-        src/core/Device/Elgato/StreamDeckDeviceInformation.h
-        src/core/Device/Elgato/streamdeckfactory.cpp
-        src/core/Device/Elgato/StreamDeckFactory.h
-        src/core/Device/Elgato/StreamDeckXLDevice.cpp
-        src/core/Device/Elgato/StreamDeckXLDevice.h
-        src/core/Device/Razer/RazerAvailableDevice.h
-        src/core/Device/Razer/RazerBlackWidowV3Device.cpp
-        src/core/Device/Razer/RazerBlackWidowV3Device.h
-        src/core/Device/Razer/RazerDeviceInformation.h
-        src/core/Device/Razer/RazerFactory.cpp
-        src/core/Device/Razer/RazerFactory.h
-        src/core/Hid/HidDevice.cpp
-        src/core/Hid/HidDevice.h
-        src/core/Hid/HidDeviceInformation.h
-        src/core/Hid/HidDiscovery.cpp
-        src/core/Hid/HidDiscovery.h
-        src/core/Logging/Logging.cpp
-        src/core/Logging/Logging.h
-        src/core/RazerController/RazerDevice.cpp
+        src/core/device/elgato/StreamDeck.cpp
+        src/core/device/elgato/StreamDeck.h
+        src/core/device/elgato/StreamDeckSupportedDevice.h
+        src/core/device/elgato/StreamDeckDeviceInformation.h
+        src/core/device/elgato/StreamDeckFactory.cpp
+        src/core/device/elgato/StreamDeckFactory.h
+        src/core/device/elgato/metadata/StreamDeckXLDevice.cpp
+        src/core/device/elgato/metadata/StreamDeckXLDevice.h
+        src/core/device/razer/RazerSupportedDevice.h
+        src/core/device/razer/metadata/RazerBlackWidowV3Device.cpp
+        src/core/device/razer/metadata/RazerBlackWidowV3Device.h
+        src/core/device/razer/metadata/RazerBasiliskV3Device.cpp
+        src/core/device/razer/metadata/RazerBasiliskV3Device.h
+        src/core/device/razer/RazerDeviceInformation.h
+        src/core/device/razer/RazerFactory.cpp
+        src/core/device/razer/RazerFactory.h
+        src/core/hid/HidDescriptor.cpp
+        src/core/hid/HidDescriptor.h
+        src/core/hid/HidDiscovery.cpp
+        src/core/hid/HidDiscovery.h
+        src/core/logging/Logging.cpp
+        src/core/logging/Logging.h
+        src/core/RazerController/RazerSupportedDevice.cpp
         src/core/RazerController/RazerDevice.h
-        src/core/RazerController/RazerDiscovery.cpp
-        src/core/RazerController/RazerDiscovery.h
         libs/hidapi/mac/hid.c
         libs/hidapi/hidapi.h
         src/OS/Configuration.cpp
@@ -77,8 +74,8 @@ add_executable(ProDeck
         macos_appnap.h
         macos_appnap.mm
         main.cpp
-        ProDeck.cpp
-        ProDeck.h)
+        src/ProDeck.cpp
+        src/ProDeck.h src/core/device/HidDevice.hpp src/core/device/razer/RazerDeviceInformation.cpp src/core/device/HidDevice.cpp src/core/device/elgato/StreamDeckDeviceInformation.cpp src/core/device/MacroDevice.cpp src/core/device/MacroDevice.hpp src/core/device/elgato/StreamDeckSupportedDevice.cpp src/core/device/razer/RazerSupportedDevice.cpp src/core/device/DeviceDiscovery.cpp src/core/device/DeviceDiscovery.hpp src/core/device/HidDescriptorFactory.hpp src/OS/NavigationView.cpp src/OS/NavigationView.hpp src/OS/Button.cpp src/OS/Button.hpp)
 
 target_link_libraries(ProDeck PUBLIC
         "-framework Foundation" PRIVATE Qt6::Core Qt6::Widgets)

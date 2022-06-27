@@ -13,6 +13,9 @@ public:
     void draw();
     void drawEndFading();
 
+    void keyDown(QPoint point);
+    void keyUp(QPoint point);
+
 private:
     bool isEnding = false;
     int row = 0;

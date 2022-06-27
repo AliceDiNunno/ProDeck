@@ -1,12 +1,11 @@
 #include "StreamDeckFactory.h"
 
 //devices
-#include "StreamDeckXLDevice.h"
+#include "src/core/device/elgato/metadata/StreamDeckXLDevice.h"
 
-StreamDeckDeviceInformation StreamDeckFactory::buildDevice(StreamDeckAvailableDevice device) {
+StreamDeckDeviceInformation *StreamDeckFactory::buildDevice(StreamDeckSupportedDevice device) {
     switch (device) {
         case XL:
-            return StreamDeckXLDevice();
-        break;
+            return new StreamDeckXLDevice();
     }
 }

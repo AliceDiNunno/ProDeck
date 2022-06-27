@@ -2,12 +2,12 @@
 #define STREAMDECKFACTORY_H
 
 #include "StreamDeckDeviceInformation.h"
-#include "StreamDeckAvailableDevice.h"
+#include "StreamDeckSupportedDevice.h"
 
 class StreamDeckFactory
 {
 public:
-    static StreamDeckDeviceInformation buildDevice(StreamDeckAvailableDevice device);
+    static StreamDeckDeviceInformation *buildDevice(StreamDeckSupportedDevice device);
 };
 
 #endif // STREAMDECKFACTORY_H

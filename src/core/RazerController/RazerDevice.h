@@ -1,8 +1,8 @@
 #ifndef RAZERDEVICE_H
 #define RAZERDEVICE_H
 
-#include "src/core/Device/Razer/RazerDeviceInformation.h"
-#include "src/core/Hid/HidDevice.h"
+#include "src/core/device/razer/RazerDeviceInformation.h"
+#include "src/core/hid/HidDescriptor.h"
 
 class RazerDevice
 {

@@ -1,11 +1,14 @@
 #include "RazerFactory.h"
 
-#include "RazerBlackWidowV3Device.h"
+//devices
+#include "metadata/RazerBlackWidowV3Device.h"
+#include "metadata/RazerBasiliskV3Device.h"
 
-RazerDeviceInformation RazerFactory::buildDevice(RazerAvailableDevice device) {
+RazerDeviceInformation *RazerFactory::buildDevice(RazerSupportedDevice device) {
     switch (device) {
-        case XL2:
-            return RazerBlackWidowV3Device();
-        break;
+        case BlackWidowV3:
+            return new RazerBlackWidowV3Device();
+        case BasiliskV3:
+            return new RazerBasiliskV3Device();
     }
 }

@@ -12,6 +12,9 @@ public:
     DeckView(QRect window);
     virtual void refresh() = 0;
 
+    virtual void keyUp(QPoint point) = 0;
+    virtual void keyDown(QPoint point) = 0;
+
     QRect getRect();
 
 signals:

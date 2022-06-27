@@ -1,11 +1,17 @@
 #ifndef NAVIGATIONBAR_H
 #define NAVIGATIONBAR_H
 
+#include "src/OS/DeckView.h"
 
-class NavigationBar
+class NavigationBar: public DeckView
 {
 public:
-    NavigationBar();
+    NavigationBar(QRect window);
+    void refresh();
+
+public:
+    void keyDown(QPoint point);
+    void keyUp(QPoint point);
 };
 
 #endif // NAVIGATIONBAR_H

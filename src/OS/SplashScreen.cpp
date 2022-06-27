@@ -40,7 +40,6 @@ void SplashScreen::draw() {
 
     color = colors[colorIndex];
 
-
     emit refreshKey(row, color);
     emit refreshKey(row+8, color);
     emit refreshKey(row+16, color);
@@ -76,4 +75,10 @@ void SplashScreen::drawEndFading() {
 void SplashScreen::endSplashScreen() {
     isEnding = true;
     row = 0;
+}
+
+void SplashScreen::keyDown(QPoint point) {
+}
+
+void SplashScreen::keyUp(QPoint point) {
 }

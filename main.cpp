@@ -4,14 +4,14 @@
 #include <signal.h>
 #include <hidapi/hidapi.h>
 
-#include "src/core/Logging/Logging.h"
-#include "ProDeck.h"
+#include "src/core/logging/Logging.h"
+#include "src/ProDeck.h"
 #include "macos_appnap.h"
-#define MAX_STR 255
 
 ProDeck *app;
 
 void exiting() {
+    Logging::log("Exiting...");
     app->deleteLater();
     app = nullptr;
 

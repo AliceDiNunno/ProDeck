@@ -1,19 +1,20 @@
 #ifndef PRODECKOS_H
 #define PRODECKOS_H
 
-#include "src/core/DeckController/StreamDeckDevice.h"
+#include "src/core/device/elgato/StreamDeck.h"
+#include "DeviceDiscovery.hpp"
+#include "NavigationView.hpp"
 
 class DeckView;
 class ProDeckOS: public QObject
 {
     Q_OBJECT
 public:
-    ProDeckOS(StreamDeckDevice *device);
+    ProDeckOS();
     ~ProDeckOS();
 
+    void addDevice(DeviceDiscovery::DiscoveredDevice dev);
 private:
-    void ClearScreen();
-    void SetBrightness(short int);
     void log(QString info);
 
 private slots:
@@ -21,11 +22,14 @@ private slots:
     void endSplash();
     void refreshKey(int index, QPixmap key);
 
-private:
-    DeckView *_pCurrentView;
-    StreamDeckDevice *_device;
-    QTimer *_pUpdateFrameTimer;
+    void keyUp(QPoint point);
+    void keyDown(QPoint point);
 
+private:
+    StreamDeck *_pStreamDeck;
+    DeckView *_pCurrentView;
+    NavigationView *_pMainView;
+    QTimer *_pUpdateFrameTimer;
 
     ///temporary
     QTimer *_pSplashScreenTimer;

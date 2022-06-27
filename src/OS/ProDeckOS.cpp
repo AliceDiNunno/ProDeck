@@ -2,27 +2,15 @@
 
 #include "SplashScreen.h"
 #include "ProDeckOS.h"
-#include "src/core/Logging/Logging.h"
+#include "src/core/logging/Logging.h"
+#include "DeviceDiscovery.hpp"
+#include "MainView.h"
 #include <unistd.h>
 
-ProDeckOS::ProDeckOS(StreamDeckDevice *device): _device(device)
+ProDeckOS::ProDeckOS()
 {
+    _pStreamDeck = nullptr;
     log("Starting ProDeckOS");
-    ClearScreen();
-    SetBrightness(25);
-
-    _pCurrentView = new SplashScreen(QRect(QPoint(0, 0), device->size()));
-
-    connect(_pCurrentView, SIGNAL(refreshKey(int, QPixmap)), this, SLOT(refreshKey(int, QPixmap)));
-
-    _pUpdateFrameTimer = new QTimer(this);
-    connect(_pUpdateFrameTimer, SIGNAL(timeout()), this, SLOT(updateFrames()));
-    _pUpdateFrameTimer->setSingleShot(false);
-    _pUpdateFrameTimer->start(50);
-
-    _pSplashScreenTimer = new QTimer(this);
-    connect(_pSplashScreenTimer, SIGNAL(timeout()), this, SLOT(endSplash()));
-    _pSplashScreenTimer->start(500*5);
 }
 
 void ProDeckOS::endSplash() {
@@ -32,7 +20,15 @@ void ProDeckOS::endSplash() {
 
    if (pSplash != nullptr) {
         pSplash->endSplashScreen();
+
+        pSplash->deleteLater();
+        pSplash = nullptr;
    }
+
+   _pSplashScreenTimer->deleteLater();
+   _pSplashScreenTimer = nullptr;
+
+   _pCurrentView = _pMainView;
 }
 
 void ProDeckOS::updateFrames() {
@@ -40,20 +36,59 @@ void ProDeckOS::updateFrames() {
 }
 
 void ProDeckOS::refreshKey(int index, QPixmap key) {
-    _device->Draw(index, key);
-}
-
-void ProDeckOS::ClearScreen() {
-    log("Clearing screen");
-    _device->Clear();
-}
-
-void ProDeckOS::SetBrightness(short brightness) {
-    log(QString("Setting brightness to %1%").arg(brightness));
+    _pStreamDeck->Draw(index, key);
 }
 
 void ProDeckOS::log(QString info) {
-    Logging::log(QString("[%1] %2").arg(_device->serialNumber()).arg(info));
+    //Logging::log(QString("[%1] %2").arg(_device->serialNumber()).arg(info));
+}
+
+void ProDeckOS::keyUp(QPoint point) {
+    _pCurrentView->keyUp(point);
+}
+
+void ProDeckOS::keyDown(QPoint point) {
+    _pCurrentView->keyDown(point);
+}
+
+#include <QDebug>
+void ProDeckOS::addDevice(DeviceDiscovery::DiscoveredDevice dev) {
+    Logging::log("OS: Added device: " + dev.device->deviceName);
+
+    auto *macro = dynamic_cast<MacroDevice *>(dev.device);
+
+    if (macro != nullptr) {
+        _pStreamDeck = new StreamDeck(dev);
+
+        if (!_pStreamDeck->Open()) {
+            Logging::log("OS: Unable to open device: " + dev.device->deviceName);
+            _pStreamDeck = nullptr;
+            return;
+        }
+
+        _pStreamDeck->Clear();
+        _pStreamDeck->SetBrightness(100);
+        connect(_pStreamDeck, SIGNAL(keyUp(QPoint)), this, SLOT(keyUp(QPoint)));
+        connect(_pStreamDeck, SIGNAL(keyDown(QPoint)), this, SLOT(keyDown(QPoint)));
+
+        _pCurrentView = new SplashScreen(QRect(QPoint(0, 0),_pStreamDeck->size()));
+
+        connect(_pCurrentView, SIGNAL(refreshKey(int, QPixmap)), this, SLOT(refreshKey(int, QPixmap)));
+
+        _pUpdateFrameTimer = new QTimer(this);
+        connect(_pUpdateFrameTimer, SIGNAL(timeout()), this, SLOT(updateFrames()));
+        _pUpdateFrameTimer->setSingleShot(false);
+        _pUpdateFrameTimer->start(20);
+
+        _pSplashScreenTimer = new QTimer(this);
+        connect(_pSplashScreenTimer, SIGNAL(timeout()), this, SLOT(endSplash()));
+        _pSplashScreenTimer->start(200*5);
+
+        _pMainView = new NavigationView(QRect(QPoint(0, 0),_pStreamDeck->size()));
+        connect(_pMainView, SIGNAL(refreshKey(int, QPixmap)), this, SLOT(refreshKey(int, QPixmap)));
+
+    }
+
 }
 
 ProDeckOS::~ProDeckOS() {

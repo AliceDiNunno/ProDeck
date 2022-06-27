@@ -80,38 +80,38 @@ extern "C" {
 
 		/** hidapi info structure */
 		struct hid_device_info {
-			/** Platform-specific device path */
+			/** Platform-specific metadata path */
 			char *path;
-			/** Device Vendor ID */
+			/** device Vendor ID */
 			unsigned short vendor_id;
-			/** Device Product ID */
+			/** device Product ID */
 			unsigned short product_id;
 			/** Serial Number */
 			wchar_t *serial_number;
-			/** Device Release Number in binary-coded decimal,
-			    also known as Device Version Number */
+			/** device Release Number in binary-coded decimal,
+			    also known as device Version Number */
 			unsigned short release_number;
 			/** Manufacturer String */
 			wchar_t *manufacturer_string;
 			/** Product string */
 			wchar_t *product_string;
-			/** Usage Page for this Device/Interface
+			/** Usage Page for this device/Interface
 			    (Windows/Mac/hidraw only) */
 			unsigned short usage_page;
-			/** Usage for this Device/Interface
+			/** Usage for this device/Interface
 			    (Windows/Mac/hidraw only) */
 			unsigned short usage;
-			/** The USB interface which this logical device
+			/** The USB interface which this logical metadata
 			    represents.
 
 				* Valid on both Linux implementations in all cases.
-				* Valid on the Windows implementation only if the device
+				* Valid on the Windows implementation only if the metadata
 				  contains more than one interface.
-				* Valid on the Mac implementation if and only if the device
-				  is a USB HID device. */
+				* Valid on the Mac implementation if and only if the metadata
+				  is a USB HID metadata. */
 			int interface_number;
 
-			/** Pointer to the next device */
+			/** Pointer to the next metadata */
 			struct hid_device_info *next;
 		};
 
@@ -155,10 +155,10 @@ extern "C" {
 			all HID devices will be returned.
 
 			@ingroup API
-			@param vendor_id The Vendor ID (VID) of the types of device
+			@param vendor_id The Vendor ID (VID) of the types of metadata
 				to open.
 			@param product_id The Product ID (PID) of the types of
-				device to open.
+				metadata to open.
 
 		    @returns
 		    	This function returns a pointer to a linked list of type
@@ -178,18 +178,18 @@ extern "C" {
 		*/
 		void  HID_API_EXPORT HID_API_CALL hid_free_enumeration(struct hid_device_info *devs);
 
-		/** @brief Open a HID device using a Vendor ID (VID), Product ID
+		/** @brief Open a HID metadata using a Vendor ID (VID), Product ID
 			(PID) and optionally a serial number.
 
-			If @p serial_number is NULL, the first device with the
+			If @p serial_number is NULL, the first metadata with the
 			specified VID and PID is opened.
 
 			This function sets the return value of hid_error().
 
 			@ingroup API
-			@param vendor_id The Vendor ID (VID) of the device to open.
-			@param product_id The Product ID (PID) of the device to open.
-			@param serial_number The Serial Number of the device to open
+			@param vendor_id The Vendor ID (VID) of the metadata to open.
+			@param product_id The Product ID (PID) of the metadata to open.
+			@param serial_number The Serial Number of the metadata to open
 				               (Optionally NULL).
 
 			@returns
@@ -198,7 +198,7 @@ extern "C" {
 		*/
 		HID_API_EXPORT hid_device * HID_API_CALL hid_open(unsigned short vendor_id, unsigned short product_id, const wchar_t *serial_number);
 
-		/** @brief Open a HID device by its path name.
+		/** @brief Open a HID metadata by its path name.
 
 			The path name be determined by calling hid_enumerate(), or a
 			platform-specific path name can be used (eg: /dev/hidraw0 on
@@ -207,7 +207,7 @@ extern "C" {
 			This function sets the return value of hid_error().
 
 			@ingroup API
-		    @param path The path name of the device to open
+		    @param path The path name of the metadata to open
 
 			@returns
 				This function returns a pointer to a #hid_device object on
@@ -215,7 +215,7 @@ extern "C" {
 		*/
 		HID_API_EXPORT hid_device * HID_API_CALL hid_open_path(const char *path);
 
-		/** @brief Write an Output report to a HID device.
+		/** @brief Write an Output report to a HID metadata.
 
 			The first byte of @p data[] must contain the Report ID. For
 			devices which only support a single report, this must be set
@@ -234,7 +234,7 @@ extern "C" {
 			This function sets the return value of hid_error().
 
 			@ingroup API
-			@param dev A device handle returned from hid_open().
+			@param dev A metadata handle returned from hid_open().
 			@param data The data to send, including the report number as
 				the first byte.
 			@param length The length in bytes of the data to send.
@@ -245,16 +245,16 @@ extern "C" {
 		*/
 		int  HID_API_EXPORT HID_API_CALL hid_write(hid_device *dev, const unsigned char *data, size_t length);
 
-		/** @brief Read an Input report from a HID device with timeout.
+		/** @brief Read an Input report from a HID metadata with timeout.
 
 			Input reports are returned
 			to the host through the INTERRUPT IN endpoint. The first byte will
-			contain the Report number if the device uses numbered reports.
+			contain the Report number if the metadata uses numbered reports.
 
 			This function sets the return value of hid_error().
 
 			@ingroup API
-			@param dev A device handle returned from hid_open().
+			@param dev A metadata handle returned from hid_open().
 			@param data A buffer to put the read data into.
 			@param length The number of bytes to read. For devices with
 				multiple reports, make sure to read an extra byte for
@@ -268,16 +268,16 @@ extern "C" {
 		*/
 		int HID_API_EXPORT HID_API_CALL hid_read_timeout(hid_device *dev, unsigned char *data, size_t length, int milliseconds);
 
-		/** @brief Read an Input report from a HID device.
+		/** @brief Read an Input report from a HID metadata.
 
 			Input reports are returned
 		    to the host through the INTERRUPT IN endpoint. The first byte will
-			contain the Report number if the device uses numbered reports.
+			contain the Report number if the metadata uses numbered reports.
 
 			This function sets the return value of hid_error().
 
 			@ingroup API
-			@param dev A device handle returned from hid_open().
+			@param dev A metadata handle returned from hid_open().
 			@param data A buffer to put the read data into.
 			@param length The number of bytes to read. For devices with
 				multiple reports, make sure to read an extra byte for
@@ -290,7 +290,7 @@ extern "C" {
 		*/
 		int  HID_API_EXPORT HID_API_CALL hid_read(hid_device *dev, unsigned char *data, size_t length);
 
-		/** @brief Set the device handle to be non-blocking.
+		/** @brief Set the metadata handle to be non-blocking.
 
 			In non-blocking mode calls to hid_read() will return
 			immediately with a value of 0 if there is no data to be
@@ -300,7 +300,7 @@ extern "C" {
 			Nonblocking can be turned on and off at any time.
 
 			@ingroup API
-			@param dev A device handle returned from hid_open().
+			@param dev A metadata handle returned from hid_open().
 			@param nonblock enable or not the nonblocking reads
 			 - 1 to enable nonblocking
 			 - 0 to disable nonblocking.
@@ -310,7 +310,7 @@ extern "C" {
 		*/
 		int  HID_API_EXPORT HID_API_CALL hid_set_nonblocking(hid_device *dev, int nonblock);
 
-		/** @brief Send a Feature report to the device.
+		/** @brief Send a Feature report to the metadata.
 
 			Feature reports are sent over the Control endpoint as a
 			Set_Report transfer.  The first byte of @p data[] must
@@ -328,7 +328,7 @@ extern "C" {
 			This function sets the return value of hid_error().
 
 			@ingroup API
-			@param dev A device handle returned from hid_open().
+			@param dev A metadata handle returned from hid_open().
 			@param data The data to send, including the report number as
 				the first byte.
 			@param length The length in bytes of the data to send, including
@@ -340,7 +340,7 @@ extern "C" {
 		*/
 		int HID_API_EXPORT HID_API_CALL hid_send_feature_report(hid_device *dev, const unsigned char *data, size_t length);
 
-		/** @brief Get a feature report from a HID device.
+		/** @brief Get a feature report from a HID metadata.
 
 			Set the first byte of @p data[] to the Report ID of the
 			report to be read.  Make sure to allow space for this
@@ -351,11 +351,11 @@ extern "C" {
 			This function sets the return value of hid_error().
 
 			@ingroup API
-			@param dev A device handle returned from hid_open().
+			@param dev A metadata handle returned from hid_open().
 			@param data A buffer to put the read data into, including
 				the Report ID. Set the first byte of @p data[] to the
 				Report ID of the report to be read, or set it to zero
-				if your device does not use numbered reports.
+				if your metadata does not use numbered reports.
 			@param length The number of bytes to read, including an
 				extra byte for the report ID. The buffer can be longer
 				than the actual report.
@@ -367,7 +367,7 @@ extern "C" {
 		*/
 		int HID_API_EXPORT HID_API_CALL hid_get_feature_report(hid_device *dev, unsigned char *data, size_t length);
 
-		/** @brief Get a input report from a HID device.
+		/** @brief Get a input report from a HID metadata.
 
 			Set the first byte of @p data[] to the Report ID of the
 			report to be read. Make sure to allow space for this
@@ -376,11 +376,11 @@ extern "C" {
 			start in data[1].
 
 			@ingroup API
-			@param device A device handle returned from hid_open().
+			@param device A metadata handle returned from hid_open().
 			@param data A buffer to put the read data into, including
 				the Report ID. Set the first byte of @p data[] to the
 				Report ID of the report to be read, or set it to zero
-				if your device does not use numbered reports.
+				if your metadata does not use numbered reports.
 			@param length The number of bytes to read, including an
 				extra byte for the report ID. The buffer can be longer
 				than the actual report.
@@ -392,19 +392,19 @@ extern "C" {
 		*/
 		int HID_API_EXPORT HID_API_CALL hid_get_input_report(hid_device *dev, unsigned char *data, size_t length);
 
-		/** @brief Close a HID device.
+		/** @brief Close a HID metadata.
 
 			This function sets the return value of hid_error().
 
 			@ingroup API
-			@param dev A device handle returned from hid_open().
+			@param dev A metadata handle returned from hid_open().
 		*/
 		void HID_API_EXPORT HID_API_CALL hid_close(hid_device *dev);
 
-		/** @brief Get The Manufacturer String from a HID device.
+		/** @brief Get The Manufacturer String from a HID metadata.
 
 			@ingroup API
-			@param dev A device handle returned from hid_open().
+			@param dev A metadata handle returned from hid_open().
 			@param string A wide string buffer to put the data into.
 			@param maxlen The length of the buffer in multiples of wchar_t.
 
@@ -413,10 +413,10 @@ extern "C" {
 		*/
 		int HID_API_EXPORT_CALL hid_get_manufacturer_string(hid_device *dev, wchar_t *string, size_t maxlen);
 
-		/** @brief Get The Product String from a HID device.
+		/** @brief Get The Product String from a HID metadata.
 
 			@ingroup API
-			@param dev A device handle returned from hid_open().
+			@param dev A metadata handle returned from hid_open().
 			@param string A wide string buffer to put the data into.
 			@param maxlen The length of the buffer in multiples of wchar_t.
 
@@ -425,10 +425,10 @@ extern "C" {
 		*/
 		int HID_API_EXPORT_CALL hid_get_product_string(hid_device *dev, wchar_t *string, size_t maxlen);
 
-		/** @brief Get The Serial Number String from a HID device.
+		/** @brief Get The Serial Number String from a HID metadata.
 
 			@ingroup API
-			@param dev A device handle returned from hid_open().
+			@param dev A metadata handle returned from hid_open().
 			@param string A wide string buffer to put the data into.
 			@param maxlen The length of the buffer in multiples of wchar_t.
 
@@ -437,10 +437,10 @@ extern "C" {
 		*/
 		int HID_API_EXPORT_CALL hid_get_serial_number_string(hid_device *dev, wchar_t *string, size_t maxlen);
 
-		/** @brief Get a string from a HID device, based on its string index.
+		/** @brief Get a string from a HID metadata, based on its string index.
 
 			@ingroup API
-			@param dev A device handle returned from hid_open().
+			@param dev A metadata handle returned from hid_open().
 			@param string_index The index of the string to get.
 			@param string A wide string buffer to put the data into.
 			@param maxlen The length of the buffer in multiples of wchar_t.
@@ -461,8 +461,8 @@ extern "C" {
 			This function is thread-safe, and error messages are thread-local.
 
 			@ingroup API
-			@param dev A device handle returned from hid_open(),
-			  or NULL to get the last non-device-specific error
+			@param dev A metadata handle returned from hid_open(),
+			  or NULL to get the last non-metadata-specific error
 			  (e.g. for errors in hid_open() itself).
 
 			@returns
